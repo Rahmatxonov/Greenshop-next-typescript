@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1210px;
+  width: 100%;
+  margin: 0 auto;
+}
+.search-input {
+  background-image: url(../public/search-icon.svg);
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position: 11px center;
+}
