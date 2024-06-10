@@ -80,8 +80,8 @@ const HeroMobile = () => {
                   iconPosition="next"
                   icon={<BtnArrowIcon />}
                   bgBtn={true}
-                  buttonWidth={83}
-                  title="ShOP NOW"
+                  buttonWidth={88}
+                  title="SHOP NOW"
                 />
               </div>
             </SwiperSlide>

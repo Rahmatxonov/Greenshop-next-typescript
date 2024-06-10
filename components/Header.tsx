@@ -11,8 +11,46 @@ import {
   HamburgerButtonIcon,
 } from "@/assets/icon";
 import { Button } from "./Button";
+import { usePathname } from "next/navigation";
+
+interface LinkType {
+  id: number;
+  title: string;
+  path: string;
+  isActive: boolean;
+}
 const Header = () => {
+  const pathname = usePathname();
+
+  const navList = [
+    {
+      id: 1,
+      title: "Home",
+      path: "/",
+      isActive: pathname == "/" ? true : false,
+    },
+    {
+      id: 2,
+      title: "Shop",
+      path: "/shop",
+      isActive: pathname == "/shop" ? true : false,
+    },
+    {
+      id: 3,
+      title: "Plant Care",
+      path: "/plant",
+      isActive: pathname == "/plant" ? true : false,
+    },
+    {
+      id: 4,
+      title: "Blogs",
+      path: "/blogs",
+      isActive: pathname == "/blogs" ? true : false,
+    },
+  ];
+
   const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handleSearchChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.value == "") {
@@ -20,6 +58,11 @@ const Header = () => {
         setShowSearchInput(false);
       }, 2000);
     }
+  };
+
+  const closeModal = (e: React.MouseEvent) => {
+    if ((e.target as HTMLButtonElement).id == "modal-wrapper")
+      setOpenModal(false);
   };
 
   return (
@@ -73,9 +116,37 @@ const Header = () => {
           aria-label="Find your plants"
           name="plants-search"
         />
-        <button className="md:hidden w-[45px] h-[45px] bg-[#46A258] rounded-[14px] shadow flex items-center justify-center opacity-90">
+        <button
+          onClick={() => setOpenModal(true)}
+          className="md:hidden w-[45px] h-[45px] bg-[#46A258] rounded-[14px] shadow flex items-center justify-center opacity-90"
+        >
           <HamburgerButtonIcon />
         </button>
+      </div>
+      <div
+        onClick={closeModal}
+        id="modal-wrapper"
+        className={` ${
+          openModal ? "left-0" : "left-[-100%]"
+        } modal duration-500 fixed top-0 z-[2] backdrop-blur-md  h-[100vh] w-full `}
+      >
+        <div
+          className={`absolute w-[80%] h-[100vh] bg-[#46A258] opacity-90 duration-500  ${
+            openModal ? "right-0" : "right-[-200%]"
+          } p-10 flex flex-col space-y-5`}
+        >
+          {navList.map((item: LinkType) => (
+            <Link
+              onClick={() => setOpenModal(false)}
+              className={`font-normal
+            pb-[31px] text-[16px] leading-[20px] text-white`}
+              key={item.id}
+              href={item.path}
+            >
+              {item.title}
+            </Link>
+          ))}
+        </div>
       </div>
     </header>
   );

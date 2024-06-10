@@ -22,10 +22,10 @@ export const Button: React.FC<ButtonType> = ({
     >
       {icon && iconPosition == "prev" && icon}
       <span
-        className={`text-[12px] ${
+        className={`${
           bgBtn
-            ? "text-[#46A358] font-bold leading-[14px] "
-            : "text-white font-medium leading-[20px]"
+            ? "text-[#46A358] text-[12px] font-bold leading-[14px]"
+            : "text-white font-medium leading-[20px] text-[16px]"
         }`}
       >
         {title}

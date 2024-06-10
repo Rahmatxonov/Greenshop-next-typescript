@@ -79,7 +79,7 @@ export default function App() {
                 <p className="mb-[44px] font-normal text-[14px] leading-[24px]">
                   {item.description}
                 </p>
-                <Button bgBtn={false} buttonWidth={140} title="ShOP NOW" />
+                <Button bgBtn={false} buttonWidth={140} title="SHOP NOW" />
               </div>
             </SwiperSlide>
           ))}
