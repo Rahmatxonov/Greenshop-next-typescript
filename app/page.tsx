@@ -10,6 +10,7 @@ import { Product } from "@/components/Product";
 import { Pagination } from "antd";
 import Image from "next/image";
 import SummerCom from "@/components/SummerCom";
+import BlogCom from "@/components/BlogCom";
 
 interface Categories {
   id: string;
@@ -199,6 +200,7 @@ function Home() {
             </div>
           </div>
           <SummerCom />
+          <BlogCom />
         </div>
       </section>
     </>

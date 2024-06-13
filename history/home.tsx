@@ -88,3 +88,123 @@
 //     </>
 //   );
 // }
+
+// blogComponent
+
+// import { ArrowRightOutlined } from "@ant-design/icons";
+// import Image from "next/image";
+// import React from "react";
+
+// const BlogCom = () => {
+//   return (
+//     <div className="mt-[138px]">
+//       <h2 className="text-center font-bold text-[30px] leading-[16px] text-[#3D3D3D] pb-[15px]">
+//         Our Blog Posts
+//       </h2>
+//       <p className="text-center font-normal text-[16px] leading-[24px] text-[#727272] pb-[35px]">
+//         We are an online plant shop offering a wide range of cheap and trendy
+//         plants.{" "}
+//       </p>
+//       <div className="flex items-center justify-center gap-x-[44px]">
+//         <div className="w-[268px]">
+//           <Image
+//             src={"/blogCom-img1.jpg"}
+//             alt="image"
+//             width={268}
+//             height={195}
+//             priority={true}
+//           />
+//           <span className="block pt-[9px] pe-[11px] pb-[12px] ps-[15px]">
+//             {" "}
+//             <p className="text-[#46A358] font-medium text-[14px] leading-[16px] pb-[4px]">
+//               September 12 I Read in 6 minutes
+//             </p>
+//             <h4 className="font-bold text-[20px] leading-[26px] text-[#3D3D3D] pb-[4px]">
+//               Cactus & Succulent Care Tips
+//             </h4>
+//             <p className="font-normal text-[14px] leading-[22px] text-[#727272] pb-[9px]">
+//               Cacti are succulents are easy plants for any home or patio.
+//             </p>
+//             <button className="duration-200 cursor-pointer hover:text-[#46A358]">
+//               Read More <ArrowRightOutlined className="pl-[6px]" />
+//             </button>
+//           </span>
+//         </div>
+//         <div className="w-[268px]">
+//           <Image
+//             src={"/blogCom-img1.jpg"}
+//             alt="image"
+//             width={268}
+//             height={195}
+//             priority={true}
+//           />
+//           <span className="block pt-[9px] pe-[11px] pb-[12px] ps-[15px]">
+//             {" "}
+//             <p className="text-[#46A358] font-medium text-[14px] leading-[16px] pb-[4px]">
+//               September 12 I Read in 6 minutes
+//             </p>
+//             <h4 className="font-bold text-[20px] leading-[26px] text-[#3D3D3D] pb-[4px]">
+//               Cactus & Succulent Care Tips
+//             </h4>
+//             <p className="font-normal text-[14px] leading-[22px] text-[#727272] pb-[9px]">
+//               Cacti are succulents are easy plants for any home or patio.
+//             </p>
+//             <button className="duration-200 cursor-pointer hover:text-[#46A358]">
+//               Read More <ArrowRightOutlined className="pl-[6px]" />
+//             </button>
+//           </span>
+//         </div>
+//         <div className="w-[268px]">
+//           <Image
+//             src={"/blogCom-img1.jpg"}
+//             alt="image"
+//             width={268}
+//             height={195}
+//             priority={true}
+//           />
+//           <span className="block pt-[9px] pe-[11px] pb-[12px] ps-[15px]">
+//             {" "}
+//             <p className="text-[#46A358] font-medium text-[14px] leading-[16px] pb-[4px]">
+//               September 12 I Read in 6 minutes
+//             </p>
+//             <h4 className="font-bold text-[20px] leading-[26px] text-[#3D3D3D] pb-[4px]">
+//               Cactus & Succulent Care Tips
+//             </h4>
+//             <p className="font-normal text-[14px] leading-[22px] text-[#727272] pb-[9px]">
+//               Cacti are succulents are easy plants for any home or patio.
+//             </p>
+//             <button className="duration-200 cursor-pointer hover:text-[#46A358]">
+//               Read More <ArrowRightOutlined className="pl-[6px]" />
+//             </button>
+//           </span>
+//         </div>
+//         <div className="w-[268px]">
+//           <Image
+//             src={"/blogCom-img1.jpg"}
+//             alt="image"
+//             width={268}
+//             height={195}
+//             priority={true}
+//           />
+//           <span className="block pt-[9px] pe-[11px] pb-[12px] ps-[15px]">
+//             {" "}
+//             <p className="text-[#46A358] font-medium text-[14px] leading-[16px] pb-[4px]">
+//               September 12 I Read in 6 minutes
+//             </p>
+//             <h4 className="font-bold text-[20px] leading-[26px] text-[#3D3D3D] pb-[4px]">
+//               Cactus & Succulent Care Tips
+//             </h4>
+//             <p className="font-normal text-[14px] leading-[22px] text-[#727272] pb-[9px]">
+//               Cacti are succulents are easy plants for any home or patio.
+//             </p>
+//             <button className="duration-200 cursor-pointer hover:text-[#46A358]">
+//               Read More <ArrowRightOutlined className="pl-[6px]" />
+//             </button>
+//           </span>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default BlogCom;
