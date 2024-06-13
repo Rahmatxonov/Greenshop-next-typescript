@@ -11,6 +11,7 @@ import { Pagination } from "antd";
 import Image from "next/image";
 import SummerCom from "@/components/SummerCom";
 import BlogCom from "@/components/BlogCom";
+import NewsLettertCom from "@/components/NewsLettertCom";
 
 interface Categories {
   id: string;
@@ -201,6 +202,7 @@ function Home() {
           </div>
           <SummerCom />
           <BlogCom />
+          <NewsLettertCom />
         </div>
       </section>
     </>
