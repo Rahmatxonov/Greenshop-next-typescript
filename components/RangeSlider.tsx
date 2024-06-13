@@ -8,7 +8,6 @@ export const RangeSlider = () => {
   const onChangeComplete = (value: number | number[]) => {
     setValues(value);
   };
-  console.log(values);
   return (
     <div>
       <Slider
