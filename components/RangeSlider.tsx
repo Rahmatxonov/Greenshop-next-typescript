@@ -3,30 +3,35 @@ import React, { useState } from "react";
 import { Slider } from "antd";
 import { Button } from "./Button";
 
-export const RangeSlider = () => {
+interface RangeType {
+  setRangeValue: (value: number[]) => void;
+}
+
+export const RangeSlider = ({ setRangeValue }: RangeType) => {
   const [values, setValues] = useState<number[]>([99, 800]);
-  const onChangeComplete = (value: number[]) => {
+
+  const onAfterChange = (value: number[]) => {
     setValues(value);
+    setRangeValue(value);
   };
+
   return (
     <div>
       <Slider
         range
         step={1}
-        defaultValue={values}
+        value={values}
         min={39}
         max={1500}
-        onChangeComplete={onChangeComplete}
+        onAfterChange={onAfterChange}
+        onChange={setValues}
       />
       <p>
         <span className="text-[15px] leading-[16px]"> Price:</span>
         <span className="font-semibold text-[#46A358] ml-2">
-          {" "}
-          {Array.isArray(values) ? values[0] : values}$ -
+          {values[0]}$ -
         </span>
-        <span className="font-semibold text-[#46A358]">
-          {Array.isArray(values) ? values[values.length - 1] : values}$
-        </span>
+        <span className="font-semibold text-[#46A358]">{values[1]}$</span>
       </p>
       <br />
       <Button bgBtn={false} title="Filter" buttonWidth={90} />

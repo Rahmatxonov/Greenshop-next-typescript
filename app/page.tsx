@@ -51,19 +51,20 @@ interface ProductType {
   size: [];
   tags: [];
 }
+
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [pages, setPaes] = useState<number>(1);
+  const [pages, setPages] = useState<number>(1);
   const [limited, setLimited] = useState<number>(10);
   const [arrow, setArrow] = useState<string>("Show");
   const [category, setCategory] = useState<Array<Categories>>([]);
-  const [categoriesId, setCategoriesId] = useState<string>("");
+  const [categoriesId, setCategoriesId] = useState<string | null>(null);
   const [tagNavbarId, setTagNavbarId] = useState<string>("");
   const [sizeId, setSizeId] = useState<string | null>(null);
-  const [plantProducts, setPlantProduct] = useState<Array<PlantProductsType>>(
-    []
-  );
+  const [priceRange, setPriceRange] = useState<number[]>([39, 1500]);
+  const [plantProducts, setPlantProduct] = useState<Array<any>>([]);
+
   const mergedArrow = useMemo(() => {
     if (arrow === "Hide") {
       return false;
@@ -89,6 +90,7 @@ function Home() {
       size_name: "Large",
     },
   ];
+
   const tagNavbar: TagNavbarType[] = [
     {
       tag_id: 1,
@@ -111,37 +113,28 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${URL}/products`, {
         params: {
           page: 1,
           limit: 10,
           name: null,
-          category: null,
-          size: null,
-          min_price: null,
-          max_price: null,
+          category: categoriesId,
+          size: sizeId,
+          min_price: priceRange[0],
+          max_price: priceRange[1],
         },
       })
       .then((res) => {
         setIsLoading(false);
         setLimited(res.data.total_count);
-        setPlantProduct(
-          res.data.products.map((product: any) => {
-            const data: PlantProductsType = {
-              product_id: product.product_id,
-              product_name: product.product_name,
-              cost: product.cost,
-              image: product.image_url[0],
-            };
-            return data;
-          })
-        );
+        setPlantProduct(res.data.products);
       })
       .catch((error) => {
         setIsLoading(false);
       });
-  }, [categoriesId, tagNavbarId]);
+  }, [categoriesId, sizeId, tagNavbarId, priceRange]);
 
   return (
     <>
@@ -162,13 +155,18 @@ function Home() {
                 <ul className="pl-[12px] space-y-[15px] mt-[20px] mb-[36px]">
                   {category &&
                     Array.isArray(category) &&
-                    category.length > 0 &&
-                    category.map((item: Categories) => (
+                    category?.length > 0 &&
+                    category?.map((item: Categories) => (
                       <li
                         key={item.category_id}
-                        onClick={() => setCategoriesId(item.category_id)}
+                        onClick={() => {
+                          setIsLoading(true);
+                          setTimeout(() => {
+                            setCategoriesId(item.category_name);
+                          }, 500);
+                        }}
                         className={`flex items-center justify-between cursor-pointer ${
-                          categoriesId == item.category_id
+                          categoriesId == item.category_name
                             ? "text-[#46A358] font-bold"
                             : ""
                         }`}
@@ -180,7 +178,7 @@ function Home() {
                 <h2 className="font-bold text-[18px] leading-[16px]">
                   Price Range
                 </h2>
-                <RangeSlider />
+                <RangeSlider setRangeValue={setPriceRange} />
                 <h2 className="font-bold text-[18px] leading-[16px] mt-[46px]">
                   Size
                 </h2>
@@ -216,7 +214,7 @@ function Home() {
                 <ul className="flex items-center space-x-[37px] mb-[20px] md:mb-0">
                   {tagNavbar.map((item: TagNavbarType) => (
                     <li
-                      className={` cursor-pointer ${
+                      className={`cursor-pointer ${
                         tagNavbarId == item.tag_name
                           ? "text-[#46A358] font-semibold border-b-[3.5px] pb-[7px] border-[#46A358]"
                           : ""
@@ -230,7 +228,7 @@ function Home() {
                 </ul>
                 <div>
                   <h2 className="text-sm md:text-base">
-                    Short by:Default sorting
+                    Short by: Default sorting
                   </h2>
                 </div>
               </div>
@@ -238,7 +236,7 @@ function Home() {
                 {isLoading
                   ? "Loading..."
                   : plantProducts.length
-                  ? plantProducts.map((item: PlantProductsType) => (
+                  ? plantProducts.map((item: any) => (
                       <Product
                         key={item.product_id}
                         id={item.product_id}
@@ -262,4 +260,5 @@ function Home() {
     </>
   );
 }
+
 export default Home;
