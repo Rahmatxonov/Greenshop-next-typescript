@@ -4,8 +4,8 @@ import { Slider } from "antd";
 import { Button } from "./Button";
 
 export const RangeSlider = () => {
-  const [values, setValues] = useState<number[] | number>([]);
-  const onChangeComplete = (value: number | number[]) => {
+  const [values, setValues] = useState<number[]>([99, 800]);
+  const onChangeComplete = (value: number[]) => {
     setValues(value);
   };
   return (
@@ -13,7 +13,7 @@ export const RangeSlider = () => {
       <Slider
         range
         step={1}
-        defaultValue={[39, 1230]}
+        defaultValue={values}
         min={39}
         max={1500}
         onChangeComplete={onChangeComplete}

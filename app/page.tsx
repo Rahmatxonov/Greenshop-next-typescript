@@ -3,7 +3,7 @@ import HeroMobile from "@/components/HeroCarusel/HeroMobile";
 import HeroCarusel from "../components/HeroCarusel";
 import { RangeSlider } from "@/components/RangeSlider";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { URL } from "../service/request";
 import { Product } from "@/components/Product";
@@ -14,73 +14,127 @@ import BlogCom from "@/components/BlogCom";
 import NewsLettertCom from "@/components/NewsLettertCom";
 
 interface Categories {
-  id: string;
-  title: string;
-  count: string;
+  category_id: string;
+  category_name: string;
 }
 
 interface PlantProductsType {
-  id: string;
-  title: string;
-  price: string;
-  images: string;
+  product_id: string;
+  product_name: string;
+  cost: string;
+  image: string;
 }
 
+interface SizeType {
+  size_id: number;
+  size_name: string;
+}
+
+interface TagNavbarType {
+  tag_id: number;
+  tag_name: string;
+}
+
+interface ProductType {
+  basket: boolean;
+  category_id: string;
+  cost: number;
+  count: number;
+  discount: number;
+  image_url: string;
+  liked: boolean;
+  product_description: string;
+  product_id: string;
+  product_name: string;
+  product_status: string;
+  short_description: string;
+  size: [];
+  tags: [];
+}
 function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const [pages, setPaes] = useState<number>(1);
+  const [limited, setLimited] = useState<number>(10);
+  const [arrow, setArrow] = useState<string>("Show");
   const [category, setCategory] = useState<Array<Categories>>([]);
-  const [size, setSize] = useState<Array<Categories>>([]);
-  const [tagNavbar, setTagNavbar] = useState<Array<Categories>>([]);
+  const [categoriesId, setCategoriesId] = useState<string>("");
+  const [tagNavbarId, setTagNavbarId] = useState<string>("");
+  const [sizeId, setSizeId] = useState<string | null>(null);
   const [plantProducts, setPlantProduct] = useState<Array<PlantProductsType>>(
     []
   );
+  const mergedArrow = useMemo(() => {
+    if (arrow === "Hide") {
+      return false;
+    }
+    if (arrow === "Show") {
+      return true;
+    } else {
+      pointAtCenter: true;
+    }
+  }, [arrow]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [categoriesId, setCategoriesId] = useState<string>("");
-  const [tagNavbarId, setTagNavbarId] = useState<string>("1");
-
-  const handleClickCategories = (id: string) => {
-    setIsLoading(true);
-    setTagNavbarId("1");
-    setTimeout(() => {
-      setCategoriesId(id);
-    }, 500);
-  };
-
-  const handleTagNavbarIdClick = (id: string) => {
-    setCategoriesId("");
-    setIsLoading(true);
-    setTimeout(() => {
-      setTagNavbarId(id);
-    }, 500);
-  };
+  const size: SizeType[] = [
+    {
+      size_id: 1,
+      size_name: "Small",
+    },
+    {
+      size_id: 2,
+      size_name: "Medium",
+    },
+    {
+      size_id: 3,
+      size_name: "Large",
+    },
+  ];
+  const tagNavbar: TagNavbarType[] = [
+    {
+      tag_id: 1,
+      tag_name: "All Plants",
+    },
+    {
+      tag_id: 2,
+      tag_name: "New Arrivals",
+    },
+    {
+      tag_id: 3,
+      tag_name: "Sale",
+    },
+  ];
 
   useEffect(() => {
-    axios.get(`${URL}/categoryies`).then((res) => {
-      setCategory(res.data);
-    });
-    axios.get(`${URL}/sizes`).then((res) => {
-      setSize(res.data);
-    });
-    axios.get(`${URL}/tag-navbar`).then((res) => {
-      setTagNavbar(res.data);
+    axios.get(`${URL}/categories?page=1&limit=100`).then((res) => {
+      setCategory(res.data.categories);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(
-        `${URL}/plant-products?categoryId=${categoriesId}&tagId=${tagNavbarId}`
-      )
+      .get(`${URL}/products`, {
+        params: {
+          page: 1,
+          limit: 10,
+          name: null,
+          category: null,
+          size: null,
+          min_price: null,
+          max_price: null,
+        },
+      })
       .then((res) => {
         setIsLoading(false);
+        setLimited(res.data.total_count);
         setPlantProduct(
-          res.data.map((item: any) => {
-            return {
-              id: item.id,
-              title: item.title,
-              price: item.price,
-              images: item.images[0],
+          res.data.products.map((product: any) => {
+            const data: PlantProductsType = {
+              product_id: product.product_id,
+              product_name: product.product_name,
+              cost: product.cost,
+              image: product.image_url[0],
             };
+            return data;
           })
         );
       })
@@ -111,16 +165,15 @@ function Home() {
                     category.length > 0 &&
                     category.map((item: Categories) => (
                       <li
-                        onClick={() => handleClickCategories(item.id)}
+                        key={item.category_id}
+                        onClick={() => setCategoriesId(item.category_id)}
                         className={`flex items-center justify-between cursor-pointer ${
-                          categoriesId == item.id
+                          categoriesId == item.category_id
                             ? "text-[#46A358] font-bold"
                             : ""
                         }`}
-                        key={item.id}
                       >
-                        <span>{item.title}</span>
-                        <span>({item.count})</span>
+                        <span>{item.category_name}</span>
                       </li>
                     ))}
                 </ul>
@@ -132,18 +185,19 @@ function Home() {
                   Size
                 </h2>
                 <ul className="pl-[12px] space-y-[15px] mt-[20px] mb-[36px]">
-                  {size &&
-                    Array.isArray(size) &&
-                    size.length > 0 &&
-                    size.map((item: Categories) => (
-                      <li
-                        className="flex items-center justify-between"
-                        key={item.id}
-                      >
-                        <span>{item.title}</span>
-                        <span>({item.count})</span>
-                      </li>
-                    ))}
+                  {size.map((item: SizeType) => (
+                    <li
+                      onClick={() => setSizeId(item.size_name)}
+                      className={`flex items-center justify-between cursor-pointer ${
+                        sizeId == item.size_name
+                          ? "text-[#46A358] font-bold"
+                          : ""
+                      }`}
+                      key={item.size_id}
+                    >
+                      <span>{item.size_name}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <Link href={"#"}>
@@ -160,17 +214,17 @@ function Home() {
             <div className="w-full md:w-[840px]">
               <div className="flex flex-col md:flex-row items-center justify-between">
                 <ul className="flex items-center space-x-[37px] mb-[20px] md:mb-0">
-                  {tagNavbar.map((item) => (
+                  {tagNavbar.map((item: TagNavbarType) => (
                     <li
                       className={` cursor-pointer ${
-                        tagNavbarId == item.id
+                        tagNavbarId == item.tag_name
                           ? "text-[#46A358] font-semibold border-b-[3.5px] pb-[7px] border-[#46A358]"
                           : ""
                       }`}
-                      onClick={() => handleTagNavbarIdClick(item.id)}
-                      key={item.id}
+                      onClick={() => setTagNavbarId(item.tag_name)}
+                      key={item.tag_id}
                     >
-                      {item.title}
+                      {item.tag_name}
                     </li>
                   ))}
                 </ul>
@@ -186,17 +240,17 @@ function Home() {
                   : plantProducts.length
                   ? plantProducts.map((item: PlantProductsType) => (
                       <Product
-                        key={item.id}
-                        id={item.id}
-                        images={item.images}
-                        price={item.price}
-                        title={item.title}
+                        key={item.product_id}
+                        id={item.product_id}
+                        images={item.image}
+                        price={item.cost}
+                        title={item.product_name}
                       />
                     ))
                   : "Empty Product..."}
               </ul>
               <div className="mt-[90px] flex justify-center md:justify-end">
-                <Pagination defaultCurrent={1} total={40} />
+                <Pagination defaultCurrent={pages} total={limited} />
               </div>
             </div>
           </div>
