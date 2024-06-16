@@ -11,7 +11,6 @@ import { Pagination } from "antd";
 import Image from "next/image";
 import SummerCom from "@/components/SummerCom";
 import BlogCom from "@/components/BlogCom";
-import NewsLettertCom from "@/components/NewsLettertCom";
 
 interface Categories {
   category_id: string;
@@ -63,7 +62,7 @@ function Home() {
   const [tagNavbarId, setTagNavbarId] = useState<string>("");
   const [sizeId, setSizeId] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<number[]>([39, 1500]);
-  const [plantProducts, setPlantProduct] = useState<Array<any>>([]);
+  const [plantProducts, setPlantProduct] = useState<Array<ProductType>>([]);
 
   const mergedArrow = useMemo(() => {
     if (arrow === "Hide") {
@@ -183,7 +182,7 @@ function Home() {
                   Size
                 </h2>
                 <ul className="pl-[12px] space-y-[15px] mt-[20px] mb-[36px]">
-                  {size.map((item: SizeType) => (
+                  {size?.map((item: SizeType) => (
                     <li
                       onClick={() => setSizeId(item.size_name)}
                       className={`flex items-center justify-between cursor-pointer ${
@@ -200,12 +199,12 @@ function Home() {
               </div>
               <Link href={"#"}>
                 <Image
-                  src="/Super-Sale.png"
+                  src="/Super-Sale2.png"
                   alt="Plant"
                   width={310}
                   height={470}
                   priority={true}
-                  className="mx-auto"
+                  className="mx-auto hidden md:block"
                 />
               </Link>
             </div>
@@ -227,22 +226,23 @@ function Home() {
                   ))}
                 </ul>
                 <div>
-                  <h2 className="text-sm md:text-base">
-                    Short by: Default sorting
-                  </h2>
+                  Short by: Default sorting
+                  <select>
+                    <option>Title Sort</option>
+                    <option> Price Sort</option>
+                  </select>
                 </div>
               </div>
               <ul className="mt-[31px] flex flex-wrap gap-[30px] text-center md:text-left justify-center md:justify-start">
                 {isLoading
                   ? "Loading..."
-                  : plantProducts.length
-                  ? plantProducts.map((item: any) => (
+                  : plantProducts?.length
+                  ? plantProducts.map((item: ProductType) => (
                       <Product
+                        setRefresh={setRefresh}
+                        refresh={refresh}
                         key={item.product_id}
-                        id={item.product_id}
-                        images={item.image}
-                        price={item.cost}
-                        title={item.product_name}
+                        item={item}
                       />
                     ))
                   : "Empty Product..."}
@@ -254,7 +254,6 @@ function Home() {
           </div>
           <SummerCom />
           <BlogCom />
-          <NewsLettertCom />
         </div>
       </section>
     </>

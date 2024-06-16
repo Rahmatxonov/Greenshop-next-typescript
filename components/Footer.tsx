@@ -8,7 +8,7 @@ import {
 
 const FooterCom = () => {
   return (
-    <footer className="bg-white">
+    <footer className="container bg-white">
       <div className="flex items-center justify-between gap-x-[60px] mt-[100px] bg-[#FBFBFB]">
         <div className="text-center md:text-left border-r-[1px] border-[#46a3594e]">
           <Image src="/garden.svg" alt="icon" width={64} height={64} />

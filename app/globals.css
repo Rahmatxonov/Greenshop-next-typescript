@@ -146,3 +146,6 @@
 .ant-pagination-item-link {
   border: 1px solid #e5e5e5 !important;
 }
+.product-box:hover > .product-icons {
+  bottom: 0;
+}
