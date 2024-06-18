@@ -132,7 +132,7 @@ function Home() {
       })
       .then((res) => {
         setIsLoading(false);
-        console.log(res.data.products);
+        // console.log(res.data.products);
         setPlantProduct(res.data.products);
         setLimited(res.data.total_count);
       })
@@ -142,7 +142,7 @@ function Home() {
       });
   }, [categoriesId, sizeId, tagNavbarId, priceRange, pages]);
 
-  return (  
+  return (
     <>
       <section className="pt-[12px] pb-[46px]">
         <div className="container px-5 md:px-0">
