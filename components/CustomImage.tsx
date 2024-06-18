@@ -18,7 +18,7 @@ export const CustomImage: React.FC<ImagePropsType> = ({
 }) => {
   return (
     <Image
-      className="w-[250px] h-[250px]"
+      className="max-w-[250px] w-full h-[250px]"
       src={src}
       alt={alt}
       width={width}

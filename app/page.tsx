@@ -4,13 +4,13 @@ import HeroCarusel from "../components/HeroCarusel";
 import { RangeSlider } from "@/components/RangeSlider";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import { URL } from "../service/request";
 import { Product } from "@/components/Product";
 import { Pagination } from "antd";
 import Image from "next/image";
 import SummerCom from "@/components/SummerCom";
 import BlogCom from "@/components/BlogCom";
+import axios from "axios";
 
 interface Categories {
   category_id: string;
@@ -32,6 +32,7 @@ interface SizeType {
 interface TagNavbarType {
   tag_id: number;
   tag_name: string;
+  path: string | null;
 }
 
 interface ProductType {
@@ -59,7 +60,7 @@ function Home() {
   const [arrow, setArrow] = useState<string>("Show");
   const [category, setCategory] = useState<Array<Categories>>([]);
   const [categoriesId, setCategoriesId] = useState<string | null>(null);
-  const [tagNavbarId, setTagNavbarId] = useState<string>("");
+  const [tagNavbarId, setTagNavbarId] = useState<string | null>("");
   const [sizeId, setSizeId] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<number[]>([39, 1500]);
   const [plantProducts, setPlantProduct] = useState<Array<ProductType>>([]);
@@ -94,14 +95,17 @@ function Home() {
     {
       tag_id: 1,
       tag_name: "All Plants",
+      path: null,
     },
     {
       tag_id: 2,
       tag_name: "New Arrivals",
+      path: "new-arrival",
     },
     {
       tag_id: 3,
       tag_name: "Sale",
+      path: "sale",
     },
   ];
 
@@ -116,26 +120,29 @@ function Home() {
     axios
       .get(`${URL}/products`, {
         params: {
-          page: 1,
+          page: pages,
           limit: 10,
           name: null,
+          status: tagNavbarId,
           category: categoriesId,
           size: sizeId,
-          min_price: priceRange[0],
-          max_price: priceRange[1],
+          min_price: priceRange ? priceRange[0] : null,
+          max_price: priceRange ? priceRange[1] : null,
         },
       })
       .then((res) => {
         setIsLoading(false);
-        setLimited(res.data.total_count);
+        console.log(res.data.products);
         setPlantProduct(res.data.products);
+        setLimited(res.data.total_count);
       })
       .catch((error) => {
+        console.log(error);
         setIsLoading(false);
       });
-  }, [categoriesId, sizeId, tagNavbarId, priceRange]);
+  }, [categoriesId, sizeId, tagNavbarId, priceRange, pages]);
 
-  return (
+  return (  
     <>
       <section className="pt-[12px] pb-[46px]">
         <div className="container px-5 md:px-0">
@@ -214,11 +221,16 @@ function Home() {
                   {tagNavbar.map((item: TagNavbarType) => (
                     <li
                       className={`cursor-pointer ${
-                        tagNavbarId == item.tag_name
+                        tagNavbarId == item.path
                           ? "text-[#46A358] font-semibold border-b-[3.5px] pb-[7px] border-[#46A358]"
                           : ""
                       }`}
-                      onClick={() => setTagNavbarId(item.tag_name)}
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setTagNavbarId(item.path);
+                        }, 600);
+                      }}
                       key={item.tag_id}
                     >
                       {item.tag_name}
@@ -248,7 +260,16 @@ function Home() {
                   : "Empty Product..."}
               </ul>
               <div className="mt-[90px] flex justify-center md:justify-end">
-                <Pagination defaultCurrent={pages} total={limited} />
+                <Pagination
+                  onChange={(e) => {
+                    setIsLoading(true);
+                    setTimeout(() => {
+                      setPages(e);
+                    }, 600);
+                  }}
+                  defaultCurrent={pages}
+                  total={limited}
+                />
               </div>
             </div>
           </div>

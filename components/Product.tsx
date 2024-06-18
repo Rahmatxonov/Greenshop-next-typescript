@@ -1,9 +1,15 @@
 import React from "react";
 import { CustomImage } from "../components/CustomImage";
-import { LikeBtn, OrderBasket, SearchIcon } from "@/assets/icon";
+import {
+  LikeBtn,
+  LikeMobileIcon,
+  OrderBasket,
+  SearchIcon,
+} from "@/assets/icon";
 import axios from "axios";
 import { URL } from "@/service/request";
 import Link from "next/link";
+import { IoMdHeartEmpty } from "react-icons/io";
 
 interface PlantProductsType {
   item: any;
@@ -30,7 +36,7 @@ export const Product: React.FC<PlantProductsType> = ({
       >
         <div className="product-box bg-[#FBFBFB] pt-[31px] pb-[18px] pl-[4px] pr-[4px] duration-150 hover:border-t-[1px] hover:border-[#46A358] relative overflow-hidden">
           <CustomImage
-            src={item?.image_url[0]}
+            src={item.image_url ? item.image_url[0] : ""}
             alt="Product Image"
             width={250}
             height={250}
@@ -57,6 +63,9 @@ export const Product: React.FC<PlantProductsType> = ({
               <SearchIcon />
             </li>
           </ul>
+          <span className="block md:hidden w-[28px] h-[28px] bg-white flex items-center justify-center rounded-[50%] absolute top-[12px] right-[11px]">
+            <IoMdHeartEmpty className="text-[#46A358]" />
+          </span>
         </div>
         <h2 className="text-[16px] leading-[16px] text-[#3d3d3d] mt-[12px] mb-[6px]">
           {item.product_name}

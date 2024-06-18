@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { ChangeEventHandler, useState } from "react";
+import React, { useState, ChangeEvent, MouseEvent } from "react";
 import { Navbar } from "./Navbar";
 import {
   SearchIcon,
@@ -12,6 +12,7 @@ import {
 } from "@/assets/icon";
 import { Button } from "./Button";
 import { usePathname } from "next/navigation";
+import LoginModal from "./Login";
 
 interface LinkType {
   id: number;
@@ -19,50 +20,52 @@ interface LinkType {
   path: string;
   isActive: boolean;
 }
-const Header = () => {
-  const pathname = usePathname();
 
-  const navList = [
+const Header: React.FC = () => {
+  const pathname = usePathname();
+  const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
+
+  const navList: LinkType[] = [
     {
       id: 1,
       title: "Home",
       path: "/",
-      isActive: pathname == "/" ? true : false,
+      isActive: pathname === "/",
     },
     {
       id: 2,
       title: "Shop",
       path: "/shop",
-      isActive: pathname == "/shop" ? true : false,
+      isActive: pathname === "/shop",
     },
     {
       id: 3,
       title: "Plant Care",
       path: "/plant",
-      isActive: pathname == "/plant" ? true : false,
+      isActive: pathname === "/plant",
     },
     {
       id: 4,
       title: "Blogs",
       path: "/blogs",
-      isActive: pathname == "/blogs" ? true : false,
+      isActive: pathname === "/blogs",
     },
   ];
 
-  const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-
-  const handleSearchChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (e.target.value == "") {
+  const handleSearchChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") {
       setTimeout(() => {
         setShowSearchInput(false);
       }, 2000);
     }
   };
 
-  const closeModal = (e: React.MouseEvent) => {
-    if ((e.target as HTMLButtonElement).id == "modal-wrapper")
+  const closeModal = (e: MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).id === "modal-wrapper") {
       setOpenModal(false);
+    }
   };
 
   return (
@@ -100,6 +103,7 @@ const Header = () => {
             <OrderBasket />
           </button>
           <Button
+            onClick={() => setLoginModal(true)}
             bgBtn={false}
             title="Login"
             iconPosition="prev"
@@ -108,8 +112,7 @@ const Header = () => {
           />
         </div>
         <input
-          className="block md:hidden  py-[14px] pl-[41px] w-[90%]
-         search-input duration-300 outline-none focus:shadow text-[14px] font-normal leading-[16px] bg-[#F8F8F8] rounded-[10px]"
+          className="block md:hidden py-[14px] pl-[41px] w-[90%] search-input duration-300 outline-none focus:shadow text-[14px] font-normal leading-[16px] bg-[#F8F8F8] rounded-[10px]"
           type="text"
           placeholder="Find your plants"
           autoComplete="off"
@@ -126,20 +129,19 @@ const Header = () => {
       <div
         onClick={closeModal}
         id="modal-wrapper"
-        className={` ${
+        className={`${
           openModal ? "left-0" : "left-[-100%]"
-        } modal duration-500 fixed top-0 z-[2] backdrop-blur-md  h-[100vh] w-full `}
+        } modal duration-500 fixed top-0 z-[2] backdrop-blur-md h-[100vh] w-full`}
       >
         <div
-          className={`absolute w-[80%] h-[100vh] bg-[#46A258] opacity-90 duration-500  ${
+          className={`absolute w-[80%] h-[100vh] bg-[#46A258] opacity-90 duration-500 ${
             openModal ? "right-0" : "right-[-200%]"
           } p-10 flex flex-col space-y-5`}
         >
           {navList.map((item: LinkType) => (
             <Link
               onClick={() => setOpenModal(false)}
-              className={`font-normal
-            pb-[31px] text-[16px] leading-[20px] text-white`}
+              className={`font-normal pb-[31px] text-[16px] leading-[20px] text-white`}
               key={item.id}
               href={item.path}
             >
@@ -148,6 +150,7 @@ const Header = () => {
           ))}
         </div>
       </div>
+      <LoginModal isOpen={loginModal} onClose={() => setLoginModal(false)} />
     </header>
   );
 };

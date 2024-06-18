@@ -9,70 +9,91 @@ import {
 const FooterCom = () => {
   return (
     <footer className="container bg-white">
-      <div className="flex items-center justify-between gap-x-[60px] mt-[100px] bg-[#FBFBFB]">
-        <div className="text-center md:text-left border-r-[1px] border-[#46a3594e]">
-          <Image src="/garden.svg" alt="icon" width={64} height={64} />
-          <h4 className="font-bold text-lg mt-4">Garden Care</h4>
-          <p className="text-sm text-gray-600 mt-2 w-[230px] pr-[26px]">
-            We are an online plant shop offering a wide range of cheap and
-            trendy plants.
-          </p>
-        </div>
-        <div className="text-center md:text-left border-r-[1px] border-[#46a3594e]">
-          <Image src="/plant.svg" alt="icon" width={64} height={64} />
-          <h4 className="font-bold text-lg mt-4">Plant Renovation</h4>
-          <p className="text-sm text-gray-600 mt-2 w-[230px] pr-[26px]">
-            We are an online plant shop offering a wide range of cheap and
-            trendy plants.
-          </p>
-        </div>
-        <div className="text-center md:text-left">
-          <Image src="/watering.svg" alt="icon" width={64} height={64} />
-          <h4 className="font-bold text-lg mt-4">Watering Garden</h4>
-          <p className="text-sm text-gray-600 mt-2 w-[204px]">
-            We are an online plant shop offering a wide range of cheap and
-            trendy plants.
-          </p>
-        </div>
-        <div className="text-center md:text-left">
-          <h4 className="font-bold text-lg mt-4 whitespace-nowrap">
-            Would you like to join newsletters?
-          </h4>
-          <div className="flex mt-4 shadow rounded-[6px]">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="w-full p-2 rounded-[6px] outline-none"
+      <div className=" mt-[100px] bg-[#FBFBFB]">
+        <div className="p-6 flex flex-wrap items-center gap-8 md:flex-nowrap md:gap-x-16">
+          <div className="w-full md:w-auto text-center md:text-left border-b md:border-b-0 md:border-r border-[#46a3594e] pb-4 md:pb-0 md:pr-6">
+            <Image
+              className="mx-auto md:mx-0"
+              src="/garden.svg"
+              alt="icon"
+              width={64}
+              height={64}
             />
-            <button className="bg-[#46A358] duration-200 cursor-pointer text-white p-2 rounded-r-md w-[85px] hover:bg-[#52b666]">
-              Join
-            </button>
+            <h4 className="font-bold text-lg mt-4">Garden Care</h4>
+            <p className="text-sm text-gray-600 mt-2 md:w-56">
+              We are an online plant shop offering a wide range of cheap and
+              trendy plants.
+            </p>
           </div>
-          <p className="text-sm text-gray-600 mt-2">
-            We usually post offers and challenges in newsletters. We’re your
-            online houseplant destination.
-          </p>
+          <div className="w-full md:w-auto text-center md:text-left border-b md:border-b-0 md:border-r border-[#46a3594e] pb-4 md:pb-0 md:pr-6">
+            <Image
+              className="mx-auto md:mx-0"
+              src="/plant.svg"
+              alt="icon"
+              width={64}
+              height={64}
+            />
+            <h4 className="font-bold text-lg mt-4">Plant Renovation</h4>
+            <p className="text-sm text-gray-600 mt-2 md:w-56">
+              We are an online plant shop offering a wide range of cheap and
+              trendy plants.
+            </p>
+          </div>
+          <div className="w-full md:w-auto text-center md:text-left md:pr-6">
+            <Image
+              className="mx-auto md:mx-0"
+              src="/watering.svg"
+              alt="icon"
+              width={64}
+              height={64}
+            />
+            <h4 className="font-bold text-lg mt-4">Watering Garden</h4>
+            <p className="text-sm text-gray-600 mt-2 md:w-52">
+              We are an online plant shop offering a wide range of cheap and
+              trendy plants.
+            </p>
+          </div>
+          <div className="max-w-[354px] w-full md:w-auto text-center md:text-left">
+            <h4 className="font-bold text-lg mt-4 md:whitespace-nowrap">
+              Join Our Newsletter
+            </h4>
+            <div className="flex mt-4 shadow rounded-[6px]">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="w-full p-2 rounded-l-[6px] outline-none"
+              />
+              <button className="bg-[#46A358] duration-200 cursor-pointer text-white p-2 rounded-r-[6px] w-[85px] hover:bg-[#52b666]">
+                Join
+              </button>
+            </div>
+            <p className="text-sm text-gray-600 mt-2">
+              We usually post offers and challenges in newsletters. We’re your
+              online houseplant destination.
+            </p>
+          </div>
         </div>
       </div>
       <div className="border-t border-gray-200 my-8"></div>
-      <div className="flex items-center justify-center md:justify-start space-x-4 bg-[#46a3592d] p-4">
+      <div className="flex flex-col items-center justify-center md:flex-row md:justify-between space-y-[10px] md:space-x-[10px] bg-[#46A3581A] p-4">
         <Image
           src="/site-logo.svg"
           alt="greenshop logo"
           width={64}
           height={64}
+          className="w-[150px] h-[34px]"
         />
-        <div className="flex flex-col md:flex-row md:space-x-4">
-          <p className="flex items-center text-sm text-gray-600">
-            <EnvironmentOutlined className="mr-2" />
+        <div className="flex flex-col md:flex-row md:space-x-[140px] text-center">
+          <p className="max-w-[176px] flex items-center text-sm text-gray-600 mb-2 md:mb-0">
+            <EnvironmentOutlined className="mr-2 text-[#46A358]" />
             70 West Buckingham Ave., Farmingdale, NY 11735
           </p>
-          <p className="flex items-center text-sm text-gray-600">
-            <MailOutlined className="mr-2" />
+          <p className="flex items-center text-sm text-gray-600 mb-2 md:mb-0">
+            <MailOutlined className="mr-2 text-[#46A358]" />
             contact@greenshop.com
           </p>
           <p className="flex items-center text-sm text-gray-600">
-            <PhoneOutlined className="mr-2" />
+            <PhoneOutlined className="mr-2 text-[#46A358]" />
             +88 01911 717 490
           </p>
         </div>
