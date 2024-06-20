@@ -7,6 +7,8 @@ interface ImagePropsType {
   width: number;
   height: number;
   priority?: boolean;
+  className?: string;
+  onClick?: () => void;
 }
 
 export const CustomImage: React.FC<ImagePropsType> = ({
@@ -15,10 +17,14 @@ export const CustomImage: React.FC<ImagePropsType> = ({
   width,
   height,
   priority,
+  className,
+  onClick,
 }) => {
   return (
     <Image
-      className="max-w-[250px] w-full h-[250px]"
+      // className="max-w-[250px] w-full h-[250px]"
+      onClick={onClick}
+      className={className}
       src={src}
       alt={alt}
       width={width}

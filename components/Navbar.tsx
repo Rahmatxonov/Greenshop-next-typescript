@@ -24,7 +24,7 @@ export const Navbar = () => {
       id: 2,
       title: "Shop",
       path: "/shop",
-      isActive: pathname == "/shop" ? true : false,
+      isActive: pathname.includes("/shop") ? true : false,
     },
     {
       id: 3,

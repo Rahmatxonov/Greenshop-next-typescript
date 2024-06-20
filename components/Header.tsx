@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, ChangeEvent, MouseEvent } from "react";
+import React, { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import { Navbar } from "./Navbar";
 import {
   SearchIcon,
@@ -13,6 +13,10 @@ import {
 import { Button } from "./Button";
 import { usePathname } from "next/navigation";
 import LoginModal from "./Login";
+import { Toaster } from "react-hot-toast";
+import axios from "axios";
+import { URL } from "@/service/request";
+import { Badge } from "antd";
 
 interface LinkType {
   id: number;
@@ -23,34 +27,36 @@ interface LinkType {
 
 const Header: React.FC = () => {
   const pathname = usePathname();
+  const token = window.localStorage.getItem("token");
   const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [loginModal, setLoginModal] = useState<boolean>(false);
+  const [basketList, setBasketList] = useState<any>([]);
 
   const navList: LinkType[] = [
     {
       id: 1,
       title: "Home",
       path: "/",
-      isActive: pathname === "/",
+      isActive: pathname == "/" ? true : false,
     },
     {
       id: 2,
       title: "Shop",
       path: "/shop",
-      isActive: pathname === "/shop",
+      isActive: pathname == "/shop" ? true : false,
     },
     {
       id: 3,
       title: "Plant Care",
       path: "/plant",
-      isActive: pathname === "/plant",
+      isActive: pathname == "/plant" ? true : false,
     },
     {
       id: 4,
       title: "Blogs",
       path: "/blogs",
-      isActive: pathname === "/blogs",
+      isActive: pathname == "/blogs" ? true : false,
     },
   ];
 
@@ -68,8 +74,25 @@ const Header: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (token) {
+      axios
+        .get(`${URL}/basket`, {
+          params: { page: 1, limit: 100 },
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((response) => {
+          setBasketList(response.data.ProductId);
+        })
+        .catch((error) => {
+          console.error("Error fetching basket data:", error);
+        });
+    }
+  }, []);
+
   return (
-    <header className="pt-[42px] md:pt-[25px]">
+    <header className="pt-[42px] md:pt-[25px] fixed w-full z-10 bg-white">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="container md:border-b-[1px] gap-[8px] md:gap-0 border-[#A2D0AB] px-[24px] md:px-0 flex items-center justify-between">
         <Link className="hidden md:block pb-[17px]" href={"/"}>
           <Image
@@ -99,9 +122,15 @@ const Header: React.FC = () => {
               name="plants-search"
             />
           </button>
-          <button>
-            <OrderBasket />
-          </button>
+          <Badge
+            style={{ color: "white", backgroundColor: "#46A258" }}
+            size="default"
+            count={basketList?.length}
+          >
+            <Link className="hover:text-[#46A258]" href={"/shop/order"}>
+              <OrderBasket />
+            </Link>
+          </Badge>
           <Button
             onClick={() => setLoginModal(true)}
             bgBtn={false}

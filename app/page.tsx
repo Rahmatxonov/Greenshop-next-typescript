@@ -53,6 +53,7 @@ interface ProductType {
 }
 
 function Home() {
+  const token = window.localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [pages, setPages] = useState<number>(1);
@@ -129,6 +130,11 @@ function Home() {
           min_price: priceRange ? priceRange[0] : null,
           max_price: priceRange ? priceRange[1] : null,
         },
+        headers: token
+          ? {
+              Authorization: "Bearer " + window.localStorage.getItem("token"),
+            }
+          : {},
       })
       .then((res) => {
         setIsLoading(false);
@@ -140,7 +146,7 @@ function Home() {
         console.log(error);
         setIsLoading(false);
       });
-  }, [categoriesId, sizeId, tagNavbarId, priceRange, pages]);
+  }, [categoriesId, sizeId, tagNavbarId, priceRange, pages, refresh]);
 
   return (
     <>
@@ -246,9 +252,7 @@ function Home() {
                 </div>
               </div>
               <ul className="mt-[31px] flex flex-wrap gap-[30px] text-center md:text-left justify-center md:justify-start">
-                {isLoading
-                  ? "Loading..."
-                  : plantProducts?.length
+                {plantProducts?.length
                   ? plantProducts.map((item: ProductType) => (
                       <Product
                         setRefresh={setRefresh}

@@ -1207,3 +1207,89 @@
 // };
 
 // export default LoginModal;
+
+// axios
+// const forgotBtnClick = async (event: React.FormEvent) => {
+//   event.preventDefault();
+//   const data = {
+//     email: forgotLoginEmail,
+//   };
+//   console.log("Forgot Password Data: ", data);
+//   try {
+//     await axios
+//       .post(
+//         `${URL}/forgot`,
+//         {},
+//         {
+//           params: {
+//             email: forgotLoginEmail,
+//           },
+//         }
+//       )
+//       .then((res) => {
+//         setIsModalContent("Login");
+//       });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// order
+
+// "use client";
+
+// import React, { useEffect, useState } from "react";
+// import { URL } from "@/service/request";
+// import axios from "axios";
+
+// interface BasketType {
+//   basket: boolean;
+//   category_id: string;
+//   cost: number;
+//   count: number;
+//   discount: number;
+//   image_url: string[];
+//   liked: boolean;
+//   product_description: string;
+//   product_id: string;
+//   product_name: string;
+//   product_status: string;
+//   short_description: string;
+//   size: string[];
+//   tags: string[];
+// }
+
+// const Order = () => {
+//   const token = window.localStorage.getItem("token");
+//   const [basketList, setBasketList] = useState<BasketType>([]);
+//   const [error, setError] = useState(null);
+//   console.log(basketList);
+
+//   useEffect(() => {
+//     axios
+//       .get(`${URL}/basket`, {
+//         params: {
+//           page: 1,
+//           limit: 100,
+//         },
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       })
+//       .then((response) => {
+//         setBasketList(response.data.ProductId);
+//       })
+//       .catch((error) => {
+//         setError(error.message);
+//         console.error("There was an error!", error);
+//       });
+//   }, [token]);
+
+//   return (
+//     <div>
+//       <h1>Order</h1>
+//     </div>
+//   );
+// };
+
+// export default Order;
