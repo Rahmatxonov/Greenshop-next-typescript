@@ -6,7 +6,7 @@ interface ButtonType {
   iconPosition?: "prev" | "next";
   buttonWidth?: number;
   bgBtn: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 export const Button: React.FC<ButtonType> = ({
   title,

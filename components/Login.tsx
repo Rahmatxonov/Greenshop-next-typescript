@@ -27,10 +27,21 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const [forgotLoginEmail, setForgotLoginEmail] = useState<string>("");
   const [registerOTPCode, setRegisterOTPCode] = useState<string>("");
   const [forgotOTPCode, setForgotOTPCode] = useState<string>("");
+  const [resetPassword, setResetPassword] = useState<string>("");
+  const [loginPasswordVisible, setLoginPasswordVisible] =
+    useState<boolean>(false);
+  const [registerPasswordVisible, setRegisterPasswordVisible] =
+    useState<boolean>(false);
+  const [registerConfirmPasswordVisible, setRegisterConfirmPasswordVisible] =
+    useState<boolean>(false);
+  const [resetVerifyPassword, setresetVerifyPassword] =
+    useState<boolean>(false);
 
   if (!isOpen) return null;
 
-  const handleLogin = async (event: React.FormEvent) => {
+  const handleLogin = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     const data = {
       password: loginPassword,
@@ -40,7 +51,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
     try {
       const res = await axios.post(`${URL}/login`, data);
       window.localStorage.setItem("token", res.data.access_token);
-      toast.success("Hush kelibsiz" + res.data.first_name);
+      toast.success("Hush kelibsiz " + res.data.first_name);
       onClose();
       setLoginEmail("");
       setLoginPassword("");
@@ -49,7 +60,9 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleRegister = async (event: React.FormEvent) => {
+  const handleRegister = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     if (registerPassword !== registerConfirmPassword) {
       alert("Passwords do not match");
@@ -73,7 +86,9 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const registerVerifyBtnClick = async (event: React.FormEvent) => {
+  const registerVerifyBtnClick = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     const data = {
       email: registerEmail,
@@ -81,33 +96,42 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
     };
     console.log("Verify Data: ", data);
     try {
-      await axios.post(`${URL}/users/verify`, data);
-      setIsModalContent("Login");
-      setRegisterEmail("");
-      setRegisterFirstName("");
-      setRegisterLastName("");
-      setRegisterPassword("");
+      await axios
+        .post(
+          `${URL}/users/verify`,
+          {},
+          {
+            params: data,
+          }
+        )
+        .then((response) => {
+          setIsModalContent("Login");
+          setRegisterEmail("");
+          setRegisterFirstName("");
+          setRegisterLastName("");
+          setRegisterPassword("");
+        });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const forgotBtnClick = async (event: React.FormEvent) => {
+  const forgotBtnClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
-    const data = {
-      email: forgotLoginEmail,
-    };
-    console.log("Forgot Password Data: ", data);
     try {
-      const response = await axios.post(`${URL}/forgot`, data);
-      console.log("Response from server: ", response.data);
-      setIsModalContent("forgotVerify");
+      axios.post(`${URL}/forgot/${forgotLoginEmail}`).then((response) => {
+        setIsModalContent("forgotVerify");
+      });
     } catch (error) {
       console.error("Error: ", console.log(error));
     }
   };
 
-  const forgotOTPBtnClick = () => {
+  const forgotOTPBtnClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     axios
       .post(
         `${URL}/verify`,
@@ -121,8 +145,21 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
       )
       .then((response) => {
         setLoginEmail(forgotLoginEmail);
-        setIsModalContent("Login");
+        setIsModalContent("createNewLogin");
       });
+  };
+
+  const resetBtnClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const data = {
+      email: forgotLoginEmail,
+      new_password: resetPassword,
+      otp: forgotOTPCode,
+    };
+    axios.put(`${URL}/reset-password`, data).then((response) => {
+      setIsModalContent("Login");
+    });
   };
 
   return (
@@ -161,9 +198,8 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
               </li>
             </ul>
           </div>
-
           {isModalContent == "Login" && (
-            <form className="px-[100px] pt-[50px] pb-[68px]">
+            <form className="px-[100px] pt-[20px] pb-[68px]">
               <div className="mb-4">
                 <label
                   className="block font-normal text-[13px] leading-[16px] text-[#3D3D3D] pb-[14px]"
@@ -172,6 +208,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
                   Enter your username and password to login.
                 </label>
                 <Input
+                  required
                   value={loginEmail}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setLoginEmail(e.target.value)
@@ -182,17 +219,32 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
                   placeholder="almamun_uxui@outlook.com"
                 />
               </div>
-              <div className="mb-6">
+              <div className="flex items-center mb-6 relative">
                 <Input
                   value={loginPassword}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setLoginPassword(e.target.value)
                   }
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
-                  type="password"
+                  type={loginPasswordVisible ? "text" : "password"}
                   placeholder="***********"
                 />
+                <span
+                  className="absolute inset-y-0 top-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() => setLoginPasswordVisible(!loginPasswordVisible)}
+                >
+                  <Image
+                    src={
+                      loginPasswordVisible
+                        ? "/eye-icon.svg"
+                        : "/eye-off-icon.svg"
+                    }
+                    alt="Toggle password visibility"
+                    width={20}
+                    height={20}
+                  />
+                </span>
               </div>
               <div className="flex items-center justify-between mb-6">
                 <button
@@ -247,9 +299,8 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
               </a>
             </form>
           )}
-
           {isModalContent == "Register" && (
-            <form className="px-[100px] py-[50px]">
+            <form className="px-[100px] py-[20px]">
               <div className="mb-[16px]">
                 <label
                   className="block font-normal text-[13px] leading-[16px] text-[#3D3D3D] pb-[14px]"
@@ -258,46 +309,101 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
                   Enter your email and password to register.
                 </label>
                 <Input
+                  required
                   value={registerFirstName}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setRegisterFirstName(e.target.value)
                   }
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#A5A5A5] font-normal leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#3D3D3D] font-normal leading-tight focus:outline-none focus:shadow-outline mb-[16px]"
                   id="first-name"
                   type="text"
-                  placeholder="Username"
+                  placeholder="First Name"
+                />
+                <Input
+                  required
+                  value={registerLastName}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setRegisterLastName(e.target.value)
+                  }
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#3D3D3D] font-normal leading-tight focus:outline-none focus:shadow-outline"
+                  id="last-name"
+                  type="text"
+                  placeholder="Last Name"
                 />
               </div>
               <Input
+                required
                 value={registerEmail}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setRegisterEmail(e.target.value)
                 }
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#A5A5A5] font-normal leading-tight focus:outline-none focus:shadow-outline mb-[16px]"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#3D3D3D] font-normal leading-tight focus:outline-none focus:shadow-outline mb-[16px]"
                 id="email"
                 type="email"
                 placeholder="Email"
               />
-              <Input
-                value={registerPassword}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setRegisterPassword(e.target.value)
-                }
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#A5A5A5] font-normal leading-tight focus:outline-none focus:shadow-outline mb-[16px]"
-                id="password"
-                type="password"
-                placeholder="Password"
-              />
-              <Input
-                value={registerConfirmPassword}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setRegisterConfirmPassword(e.target.value)
-                }
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-[#A5A5A5] font-normal leading-tight focus:outline-none focus:shadow-outline mb-[41px]"
-                id="confirm-password"
-                type="password"
-                placeholder="Confirm Password"
-              />
+              <div className="relative mb-[16px]">
+                <Input
+                  required
+                  value={registerPassword}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setRegisterPassword(e.target.value)
+                  }
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#3D3D3D] font-normal leading-tight focus:outline-none focus:shadow-outline"
+                  id="password"
+                  placeholder="Password"
+                  type={registerPasswordVisible ? "text" : "password"}
+                />
+                <span
+                  className="absolute inset-y-0 top-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() =>
+                    setRegisterPasswordVisible(!registerPasswordVisible)
+                  }
+                >
+                  <Image
+                    src={
+                      registerPasswordVisible
+                        ? "/eye-icon.svg"
+                        : "/eye-off-icon.svg"
+                    }
+                    alt="Toggle password visibility"
+                    width={20}
+                    height={20}
+                  />
+                </span>
+              </div>
+              <div className="relative mb-[41px]">
+                <Input
+                  required
+                  value={registerConfirmPassword}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setRegisterConfirmPassword(e.target.value)
+                  }
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-[#3D3D3D] font-normal leading-tight focus:outline-none focus:shadow-outline"
+                  id="confirm-password"
+                  type={registerConfirmPasswordVisible ? "text" : "password"}
+                  placeholder="Confirm Password"
+                />
+                <span
+                  className="absolute inset-y-0 top-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() =>
+                    setRegisterConfirmPasswordVisible(
+                      !registerConfirmPasswordVisible
+                    )
+                  }
+                >
+                  <Image
+                    src={
+                      registerConfirmPasswordVisible
+                        ? "/eye-icon.svg"
+                        : "/eye-off-icon.svg"
+                    }
+                    alt="Toggle password visibility"
+                    width={20}
+                    height={20}
+                  />
+                </span>
+              </div>
               <div className="flex items-center justify-between">
                 <Button
                   title="Register"
@@ -349,6 +455,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
           {isModalContent == "forgotEmail" && (
             <div className="flex flex-col items-center space-x-5">
               <Input
+                type="email"
                 className="mb-[16px]"
                 value={forgotLoginEmail}
                 onChange={(e) => setForgotLoginEmail(e.target.value)}
@@ -376,6 +483,43 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
                   title="Enter Code"
                   buttonWidth={360}
                   onClick={forgotOTPBtnClick}
+                  bgBtn={false}
+                ></Button>
+              </div>
+            </div>
+          )}
+          {isModalContent == "createNewLogin" && (
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                <Input
+                  className="w-[360px]"
+                  value={resetPassword}
+                  onChange={(e) => setResetPassword(e.target.value)}
+                  size="large"
+                  placeholder="Enter your new password"
+                  type={resetVerifyPassword ? "text" : "password"}
+                />
+                <span
+                  className="absolute inset-y-0 top-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() => setresetVerifyPassword(!resetVerifyPassword)}
+                >
+                  <Image
+                    src={
+                      resetVerifyPassword
+                        ? "/eye-icon.svg"
+                        : "/eye-off-icon.svg"
+                    }
+                    alt="Toggle password visibility"
+                    width={20}
+                    height={20}
+                  />
+                </span>
+              </div>
+              <div className="mt-[16px]">
+                <Button
+                  title="Enter new password"
+                  buttonWidth={360}
+                  onClick={resetBtnClick}
                   bgBtn={false}
                 ></Button>
               </div>

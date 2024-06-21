@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CustomImage } from "../components/CustomImage";
 import {
   LikeBtn,
@@ -11,6 +11,7 @@ import { URL } from "@/service/request";
 import Link from "next/link";
 import { IoMdHeartEmpty } from "react-icons/io";
 import toast, { Toaster } from "react-hot-toast";
+import { Context } from "@/context/context";
 
 interface PlantProductsType {
   item: any;
@@ -23,6 +24,8 @@ export const Product: React.FC<PlantProductsType> = ({
   setRefresh,
   refresh,
 }) => {
+  const { refreshContext, setRefreshContext } = useContext(Context);
+
   const handleLiked = (id: string) => {
     axios
       .post(
@@ -56,6 +59,7 @@ export const Product: React.FC<PlantProductsType> = ({
       .then((response) => {
         toast.success("Saqlandi");
         setRefresh(!refresh);
+        setRefreshContext(!refreshContext);
       });
   };
 

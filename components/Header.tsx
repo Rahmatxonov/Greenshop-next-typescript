@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, ChangeEvent, MouseEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, MouseEvent, useContext } from "react";
 import { Navbar } from "./Navbar";
 import {
   SearchIcon,
@@ -14,10 +14,8 @@ import { Button } from "./Button";
 import { usePathname } from "next/navigation";
 import LoginModal from "./Login";
 import { Toaster } from "react-hot-toast";
-import axios from "axios";
-import { URL } from "@/service/request";
 import { Badge } from "antd";
-
+import { Context } from "@/context/context";
 interface LinkType {
   id: number;
   title: string;
@@ -27,11 +25,10 @@ interface LinkType {
 
 const Header: React.FC = () => {
   const pathname = usePathname();
-  const token = window.localStorage.getItem("token");
+  const { basketList } = useContext(Context);
   const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [loginModal, setLoginModal] = useState<boolean>(false);
-  const [basketList, setBasketList] = useState<any>([]);
 
   const navList: LinkType[] = [
     {
@@ -73,22 +70,6 @@ const Header: React.FC = () => {
       setOpenModal(false);
     }
   };
-
-  useEffect(() => {
-    if (token) {
-      axios
-        .get(`${URL}/basket`, {
-          params: { page: 1, limit: 100 },
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((response) => {
-          setBasketList(response.data.ProductId);
-        })
-        .catch((error) => {
-          console.error("Error fetching basket data:", error);
-        });
-    }
-  }, []);
 
   return (
     <header className="pt-[42px] md:pt-[25px] fixed w-full z-10 bg-white">
