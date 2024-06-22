@@ -257,7 +257,6 @@
 // }
 // export default Home;
 
-
 // blogComponent
 
 // import { ArrowRightOutlined } from "@ant-design/icons";
@@ -1295,3 +1294,187 @@
 // };
 
 // export default Order;
+
+// order page
+
+// "use client";
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { URL } from "@/service/request";
+// import { DeleteIcon } from "@/assets/icon";
+
+// interface BasketType {
+//   basket: boolean;
+//   category_id: string;
+//   cost: number;
+//   count: number;
+//   discount: number;
+//   image_url: string[];
+//   liked: boolean;
+//   product_description: string;
+//   product_id: string;
+//   product_name: string;
+//   product_status: string;
+//   short_description: string;
+//   size: string[];
+//   tags: string[];
+// }
+
+// const Order: React.FC = () => {
+//   const token = window.localStorage.getItem("token");
+//   const [basketList, setBasketList] = useState<BasketType[]>([]);
+//   const [error, setError] = useState<string | null>(null);
+
+//   useEffect(() => {
+//     axios
+//       .get(`${URL}/basket`, {
+//         params: {
+//           page: 1,
+//           limit: 100,
+//         },
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       })
+//       .then((response) => {
+//         setBasketList(response.data.ProductId);
+//       })
+//       .catch((error) => {
+//         setError(error.message);
+//         console.error(error);
+//       });
+//   }, [token]);
+
+//   const increaseQuantity = (productId: string) => {
+//     setBasketList((prev) =>
+//       prev.map((item) =>
+//         item.product_id === productId
+//           ? { ...item, count: item.count + 1 }
+//           : item
+//       )
+//     );
+//   };
+
+//   const decreaseQuantity = (productId: string) => {
+//     setBasketList((prev) =>
+//       prev.map((item) =>
+//         item.product_id === productId && item.count > 1
+//           ? { ...item, count: item.count - 1 }
+//           : item
+//       )
+//     );
+//   };
+
+//   const removeItem = (productId: string) => {
+//     setBasketList((prev) =>
+//       prev.filter((item) => item.product_id !== productId)
+//     );
+//   };
+
+//   return (
+//     <div className="container mx-auto p-4">
+//       <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
+//       {error && <p className="text-red-500">{error}</p>}
+//       <div className="overflow-x-auto">
+//         <table className="min-w-full bg-white">
+//           <thead>
+//             <tr>
+//               <th className="py-2 px-4 border-b">Products</th>
+//               <th className="py-2 px-4 border-b">Price</th>
+//               <th className="py-2 px-4 border-b">Quantity</th>
+//               <th className="py-2 px-4 border-b">Total</th>
+//               <th className="py-2 px-4 border-b">Action</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {basketList.map((item) => (
+//               <tr key={item.product_id}>
+//                 <td className="py-4 px-4 border-b flex items-center">
+//                   <img
+//                     src={item.image_url[0]}
+//                     alt={item.product_name}
+//                     className="w-16 h-16 object-cover mr-4"
+//                   />
+//                   <div>
+//                     <p className="font-semibold">{item.product_name}</p>
+//                     <p className="text-gray-600 text-sm">
+//                       SKU: {item.product_id}
+//                     </p>
+//                   </div>
+//                 </td>
+//                 <td className="py-4 px-4 border-b">${item.cost.toFixed(2)}</td>
+//                 <td className="py-4 px-4 border-b flex items-center">
+//                   <button
+//                     className="bg-gray-300 text-gray-700 px-2 py-1 rounded"
+//                     onClick={() => decreaseQuantity(item.product_id)}
+//                   >
+//                     -
+//                   </button>
+//                   <span className="mx-2">{item.count}</span>
+//                   <button
+//                     className="bg-gray-300 text-gray-700 px-2 py-1 rounded"
+//                     onClick={() => increaseQuantity(item.product_id)}
+//                   >
+//                     +
+//                   </button>
+//                 </td>
+//                 <td className="py-4 px-4 border-b text-green-500 font-bold">
+//                   ${(item.cost * item.count).toFixed(2)}
+//                 </td>
+//                 <td className="py-4 px-4 border-b">
+//                   <button
+//                     className="text-red-500 hover:text-red-700"
+//                     onClick={() => removeItem(item.product_id)}
+//                   >
+//                     <DeleteIcon />
+//                   </button>
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Order;
+
+// context
+
+// "use client";
+
+// import { URL } from "@/service/request";
+// import axios from "axios";
+// import { createContext, useEffect, useState } from "react";
+
+// export const Context = createContext<any>(null);
+// export const BasketListContext = ({ children }: any) => {
+//   const [basketList, setBasketList] = useState<any>([]);
+//   const token = window.localStorage.getItem("token");
+//   const [refreshContext, setRefreshContext] = useState<boolean>(false);
+//   useEffect(() => {
+//     if (token) {
+//       axios
+//         .get(`${URL}/basket`, {
+//           params: { page: 1, limit: 100 },
+//           headers: { Authorization: "Bearer " + token },
+//         })
+//         .then((response) => {
+//           setBasketList(response.data.ProductId);
+//         })
+//         .catch((error) => {
+//           console.error("Error fetching basket data:", error);
+//         });
+//     }
+//   }, [refreshContext]);
+
+//   return (
+//     <Context.Provider
+//       value={{ basketList, setBasketList, refreshContext, setRefreshContext }}
+//     >
+//       {children}
+//     </Context.Provider>
+//   );
+// };

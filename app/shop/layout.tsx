@@ -7,8 +7,9 @@ const layout = ({ children }: any) => {
   const pathname = usePathname();
   return (
     <div className="container">
-      <h2 className="pt-[36px]">
-        Home / Shop {pathname.includes("order") ? " / Shopping Cart" : ""}
+      <h2 className="pt-[36px] font-normal text-[15px] leading-[16px]">
+        <span className="font-bold">Home</span> / Shop{" "}
+        {pathname.includes("order") ? " / Shopping Cart" : ""}
       </h2>
       {children}
     </div>

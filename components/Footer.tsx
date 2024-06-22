@@ -6,11 +6,11 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 
-const FooterCom = () => {
+const Footer = () => {
   return (
     <footer className="container bg-white">
       <div className=" mt-[100px] bg-[#FBFBFB]">
-        <div className="p-6 flex flex-wrap items-center gap-8 md:flex-nowrap md:gap-x-16">
+        <div className="p-6 flex flex-wrap items-center gap-8 md:flex-nowrap ">
           <div className="w-full md:w-auto text-center md:text-left border-b md:border-b-0 md:border-r border-[#46a3594e] pb-4 md:pb-0 md:pr-6">
             <Image
               className="mx-auto md:mx-0"
@@ -53,7 +53,7 @@ const FooterCom = () => {
               trendy plants.
             </p>
           </div>
-          <div className="max-w-[354px] w-full md:w-auto text-center md:text-left">
+          <div className="w-full md:w-auto text-center md:text-left">
             <h4 className="font-bold text-lg mt-4 md:whitespace-nowrap">
               Join Our Newsletter
             </h4>
@@ -67,15 +67,17 @@ const FooterCom = () => {
                 Join
               </button>
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-gray-600 mt-[17px]">
               We usually post offers and challenges in newsletters. We’re your
-              online houseplant destination.
+              online houseplant destination. We offer a wide range of
+              houseplants and accessories shipped directly from our (green)house
+              to yours!
             </p>
           </div>
         </div>
       </div>
       <div className="border-t border-gray-200 my-8"></div>
-      <div className="flex flex-col items-center justify-center md:flex-row md:justify-between space-y-[10px] md:space-x-[10px] bg-[#46A3581A] p-4">
+      <div className="flex flex-col items-center justify-center md:flex-row md:justify-start space-y-4 md:space-y-0 md:space-x-[116px] bg-[#46A3581A] p-4">
         <Image
           src="/site-logo.svg"
           alt="greenshop logo"
@@ -83,25 +85,24 @@ const FooterCom = () => {
           height={64}
           className="w-[150px] h-[34px]"
         />
-        <div className="flex flex-col md:flex-row md:space-x-[140px] text-center">
-          <p className="max-w-[176px] flex items-center text-sm text-gray-600 mb-2 md:mb-0">
-            <EnvironmentOutlined className="mr-2 text-[#46A358]" />
-            70 West Buckingham Ave., Farmingdale, NY 11735
-          </p>
-          <p className="flex items-center text-sm text-gray-600 mb-2 md:mb-0">
-            <MailOutlined className="mr-2 text-[#46A358]" />
-            contact@greenshop.com
-          </p>
-          <p className="flex items-center text-sm text-gray-600">
-            <PhoneOutlined className="mr-2 text-[#46A358]" />
-            +88 01911 717 490
-          </p>
-        </div>
+        <p className="max-w-[176px] flex items-center text-sm text-gray-600 mb-2 md:mb-0">
+          <EnvironmentOutlined className="mr-2 text-[#46A358]" />
+          70 West Buckingham Ave., Farmingdale, NY 11735
+        </p>
+        <p className="flex items-center text-sm text-gray-600 mb-2 md:mb-0">
+          <MailOutlined className="mr-2 text-[#46A358]" />
+          contact@greenshop.com
+        </p>
+        <p className="flex items-center text-sm text-gray-600">
+          <PhoneOutlined className="mr-2 text-[#46A358]" />
+          +88 01911 717 490
+        </p>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
         <div className="text-center md:text-left">
           <h4 className="font-bold text-lg">My Account</h4>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-4 space-y-2 hidden md:block">
             <li className="text-sm text-gray-600">My Account</li>
             <li className="text-sm text-gray-600">Our stores</li>
             <li className="text-sm text-gray-600">Contact us</li>
@@ -111,7 +112,7 @@ const FooterCom = () => {
         </div>
         <div className="text-center md:text-left">
           <h4 className="font-bold text-lg">Help & Guide</h4>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-4 space-y-2 hidden md:block">
             <li className="text-sm text-gray-600">Help Center</li>
             <li className="text-sm text-gray-600">How to Buy</li>
             <li className="text-sm text-gray-600">Shipping & Delivery</li>
@@ -121,7 +122,7 @@ const FooterCom = () => {
         </div>
         <div className="text-center md:text-left">
           <h4 className="font-bold text-lg">Categories</h4>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-4 space-y-2 hidden md:block">
             <li className="text-sm text-gray-600">House Plants</li>
             <li className="text-sm text-gray-600">Potter Plants</li>
             <li className="text-sm text-gray-600">Seeds</li>
@@ -164,4 +165,4 @@ const FooterCom = () => {
   );
 };
 
-export default FooterCom;
+export default Footer;

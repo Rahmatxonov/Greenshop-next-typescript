@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import FooterCom from "@/components/Footer";
+import Footer from "@/components/Footer";
 import { BasketListContext } from "@/context/context";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,7 +26,7 @@ export default function RootLayout({
         <BasketListContext>
           <Header />
           <main className="pt-[80px]">{children}</main>
-          <FooterCom />
+          <Footer />
         </BasketListContext>
       </body>
     </html>

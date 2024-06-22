@@ -2,89 +2,131 @@
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 import "swiper/css/pagination";
-
 import { Pagination, Autoplay } from "swiper/modules";
 import { CustomImage } from "../../components/CustomImage";
+import Reviews from "@/components/Reviews";
 
-interface HeroProductType {
+interface InterestedType {
   id: number;
   text: string;
   price: string;
-  id2: number;
-  text2: string;
-  price2: string;
-  id3: number;
-  text3: string;
-  price3: string;
-  id4: number;
-  text4: string;
-  price4: string;
-  id5: number;
-  text5: string;
-  price5: string;
+  image: string;
 }
 
-export default function HeroProduct() {
-  const heroData = [
+function Interested() {
+  const InterestedData: InterestedType[] = [
     {
       id: 1,
       text: "Beach Spider Lily",
       price: "$129.00",
-      id2: 2,
-      text2: "Blushing Bromeliad",
-      price2: "$139.00",
-      id3: 3,
-      text3: "Aluminum Plant",
-      price3: "$179.00",
-      id4: 4,
-      text4: "Bird's Nest Fern",
-      price4: "$99.00",
-      id5: 5,
-      text5: "Chinese Evergreen",
-      price5: "$39.00",
+      image: "/image7.png",
+    },
+    {
+      id: 2,
+      text: "Blushing Bromeliad",
+      price: "$139.00",
+      image: "/image2.png",
+    },
+    {
+      id: 3,
+      text: "Aluminum Plant",
+      price: "$179.00",
+      image: "/image3.png",
+    },
+    {
+      id: 4,
+      text: "Bird's Nest Fern",
+      price: "$99.00",
+      image: "/image4.png",
+    },
+    {
+      id: 5,
+      text: "Chinese Evergreen",
+      price: "$39.00",
+      image: "/image5.png",
     },
     {
       id: 6,
+      text: "Chinese Evergreen",
+      price: "$39.00",
+      image: "/image6.png",
+    },
+    {
+      id: 7,
       text: "Beach Spider Lily",
       price: "$129.00",
-      id2: 7,
-      text2: "Blushing Bromeliad",
-      price2: "$139.00",
-      id3: 8,
-      text3: "Aluminum Plant",
-      price3: "$179.00",
-      id4: 9,
-      text4: "Bird's Nest Fern",
-      price4: "$99.00",
-      id5: 10,
-      text5: "Chinese Evergreen",
-      price5: "$39.00",
+      image: "/image7.png",
+    },
+    {
+      id: 8,
+      text: "Blushing Bromeliad",
+      price: "$139.00",
+      image: "/image2.png",
+    },
+    {
+      id: 9,
+      text: "Aluminum Plant",
+      price: "$179.00",
+      image: "/image3.png",
     },
     {
       id: 11,
-      text: "Beach Spider Lily",
-      price: "$129.00",
-      id2: 12,
-      text2: "Blushing Bromeliad",
-      price2: "$139.00",
-      id3: 13,
-      text3: "Aluminum Plant",
-      price3: "$179.00",
-      id4: 14,
-      text4: "Bird's Nest Fern",
-      price4: "$99.00",
-      id5: 15,
-      text5: "Chinese Evergreen",
-      price5: "$39.00",
+      text: "Bird's Nest Fern",
+      price: "$99.00",
+      image: "/image4.png",
+    },
+    {
+      id: 12,
+      text: "Chinese Evergreen",
+      price: "$39.00",
+      image: "/image5.png",
+    },
+    {
+      id: 13,
+      text: "Chinese Evergreen",
+      price: "$39.00",
+      image: "/image6.png",
+    },
+    {
+      id: 14,
+      text: "Bird's Nest Fern",
+      price: "$99.00",
+      image: "/image4.png",
+    },
+    {
+      id: 15,
+      text: "Chinese Evergreen",
+      price: "$39.00",
+      image: "/image5.png",
+    },
+    {
+      id: 16,
+      text: "Chinese Evergreen",
+      price: "$39.00",
+      image: "/image6.png",
     },
   ];
 
+  const SwiperData = (data: InterestedType[], size: number) => {
+    const datas = [];
+    for (let i = 0; i < data.length; i += size) {
+      datas.push(data.slice(i, i + size));
+    }
+    return datas;
+  };
+
+  const SwiperDataSlider = SwiperData(InterestedData, 5);
+
   return (
     <>
-      <div className="hidden md:block">
+      <Reviews />
+      <div className="container bg-white no-background-image">
+        <h2 className="font-bold text-[17px] leading-[16px] text-[#46A358]">
+          You may be interested in
+        </h2>
+        <div className="border-b border-[#46a35943] pb-[12px]"></div>
         <Swiper
           pagination={{
             dynamicBullets: true,
@@ -94,172 +136,28 @@ export default function HeroProduct() {
             disableOnInteraction: false,
           }}
           modules={[Pagination, Autoplay]}
-          className="mySwiper"
         >
-          {heroData.map((item: HeroProductType) => (
-            <SwiperSlide key={item.id} className="pt-[68px] pb-[85px] Swiper">
-              <div className="flex justify-center items-center gap-[30px]">
-                <div className="bg-[#FBFBFB] w-[219px] h-[255px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={243}
-                    width={190}
-                    src={"/image1.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[15px] leading-[16px]">
-                    {item.text}
-                  </p>
-                  <p className="text-[#46A358] text-[16px] leading-[16px] font-bold mt-[5px]">
-                    {item.price}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[219px] h-[255px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={243}
-                    width={190}
-                    src={"/image2.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[15px] leading-[16px]">
-                    {item.text2}
-                  </p>
-                  <p className="text-[#46A358] text-[16px] leading-[16px] font-bold mt-[5px]">
-                    {item.price2}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[219px] h-[255px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={243}
-                    width={190}
-                    src={"/image7.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[15px] leading-[16px]">
-                    {item.text3}
-                  </p>
-                  <p className="text-[#46A358] text-[16px] leading-[16px] font-bold mt-[5px]">
-                    {item.price3}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[219px] h-[255px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={243}
-                    width={190}
-                    src={"/image4.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[15px] leading-[16px]">
-                    {item.text4}
-                  </p>
-                  <p className="text-[#46A358] text-[16px] leading-[16px] font-bold mt-[5px]">
-                    {item.price4}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[219px] h-[255px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={243}
-                    width={190}
-                    src={"/image6.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[15px] leading-[16px]">
-                    {item.text5}
-                  </p>
-                  <p className="text-[#46A358] text-[16px] leading-[16px] font-bold mt-[5px]">
-                    {item.price5}
-                  </p>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      <div className="block md:hidden">
-        <Swiper
-          pagination={{
-            dynamicBullets: true,
-          }}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-          }}
-          modules={[Pagination, Autoplay]}
-          className="mySwiper"
-        >
-          {heroData.map((item: HeroProductType) => (
-            <SwiperSlide key={item.id} className="pt-[20px] pb-[30px] Swiper">
-              <div className="flex flex-wrap justify-center items-center gap-[10px]">
-                <div className="bg-[#FBFBFB] w-[150px] h-[200px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={150}
-                    width={150}
-                    src={"/image1.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[12px] leading-[16px] text-center">
-                    {item.text}
-                  </p>
-                  <p className="text-[#46A358] text-[14px] leading-[16px] font-bold mt-[5px] text-center">
-                    {item.price}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[150px] h-[200px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={150}
-                    width={150}
-                    src={"/image2.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[12px] leading-[16px] text-center">
-                    {item.text2}
-                  </p>
-                  <p className="text-[#46A358] text-[14px] leading-[16px] font-bold mt-[5px] text-center">
-                    {item.price2}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[150px] h-[200px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={150}
-                    width={150}
-                    src={"/image7.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[12px] leading-[16px] text-center">
-                    {item.text3}
-                  </p>
-                  <p className="text-[#46A358] text-[14px] leading-[16px] font-bold mt-[5px] text-center">
-                    {item.price3}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[150px] h-[200px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={150}
-                    width={150}
-                    src={"/image4.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[12px] leading-[16px] text-center">
-                    {item.text4}
-                  </p>
-                  <p className="text-[#46A358] text-[14px] leading-[16px] font-bold mt-[5px] text-center">
-                    {item.price4}
-                  </p>
-                </div>
-                <div className="bg-[#FBFBFB] w-[150px] h-[200px] pt-3">
-                  <CustomImage
-                    alt="image"
-                    height={150}
-                    width={150}
-                    src={"/image6.png"}
-                  />
-                  <p className="mt-[12px] font-normal text-[12px] leading-[16px] text-center">
-                    {item.text5}
-                  </p>
-                  <p className="text-[#46A358] text-[14px] leading-[16px] font-bold mt-[5px] text-center">
-                    {item.price5}
-                  </p>
-                </div>
+          {SwiperDataSlider.map((data, dataIndex) => (
+            <SwiperSlide key={dataIndex} className="pt-8 pb-16">
+              <div className="flex flex-wrap justify-center items-center gap-[33px]">
+                {data.map((item: InterestedType) => (
+                  <div key={item.id} className="bg-white">
+                    <div className="bg-[#FBFBFB] px-[4px] py-[20px]">
+                      <CustomImage
+                        alt={item.text}
+                        height={200}
+                        width={190}
+                        src={item.image}
+                      />
+                    </div>
+                    <p className="mt-3 text-center font-normal text-sm md:text-base leading-4">
+                      {item.text}
+                    </p>
+                    <p className="text-center text-[#46A358] text-base md:text-lg leading-4 font-bold mt-1">
+                      {item.price}
+                    </p>
+                  </div>
+                ))}
               </div>
             </SwiperSlide>
           ))}
@@ -268,3 +166,5 @@ export default function HeroProduct() {
     </>
   );
 }
+
+export default Interested;

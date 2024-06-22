@@ -5,7 +5,9 @@
 * {
   box-sizing: border-box;
 }
-
+body {
+  overflow-x: hidden;
+}
 .container {
   max-width: 1210px;
   width: 100%;
@@ -148,4 +150,16 @@
 }
 .product-box:hover > .product-icons {
   bottom: 0;
+}
+.no-background-image {
+  background-image: none !important;
+}
+
+.no-background-image * {
+  background-image: none !important;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #46a358 #f1f1f1;
 }

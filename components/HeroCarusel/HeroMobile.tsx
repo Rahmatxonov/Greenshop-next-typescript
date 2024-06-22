@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import "./hero.css";
 import "swiper/css";
 import { BtnArrowIcon } from "@/assets/icon";
+import { Navbar } from "../Navbar";
 
 interface CaruselType {
   id: number;
@@ -83,6 +84,7 @@ const HeroMobile = () => {
                   buttonWidth={88}
                   title="SHOP NOW"
                 />
+                <Navbar />
               </div>
             </SwiperSlide>
           ))}

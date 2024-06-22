@@ -28,7 +28,7 @@ export const Button: React.FC<ButtonType> = ({
       <span
         className={`${
           bgBtn
-            ? "text-[#46A358] text-[14px] font-bold leading-[14px] border-[1px] border-[#46A358] hover:bg-[#46A358] hover:text-white duration-300 cursor-pointer w-[130px] h-[40px] flex items-center justify-center rounded-[6px]"
+            ? "text-[#46A358] text-[12px] font-bold leading-[14px]"
             : "text-white font-medium leading-[20px] text-[16px] cursor-pointer"
         }`}
       >

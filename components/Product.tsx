@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext } from "react";
 import { CustomImage } from "../components/CustomImage";
 import {
