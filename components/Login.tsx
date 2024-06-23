@@ -56,6 +56,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
       setLoginEmail("");
       setLoginPassword("");
     } catch (error) {
+      toast.error("Login failed. Please check your credentials and try again.");
       console.log(error);
     }
   };
@@ -82,6 +83,8 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
         setLoginEmail(registerEmail);
       });
     } catch (error) {
+      toast.error("Registration failed. Please try again.");
+
       // console.log(error);
     }
   };
@@ -108,6 +111,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
           setRegisterPassword("");
         });
     } catch (err) {
+      toast.error("Verification failed. Please try again.");
       console.log(err);
     }
   };
@@ -121,7 +125,8 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
         setIsModalContent("forgotVerify");
       });
     } catch (error) {
-      console.error("Error: ", console.log(error));
+      console.error("Error: ");
+      toast.error("Failed to send the reset code. Please try again.");
     }
   };
 
@@ -155,6 +160,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
     };
     axios.put(`${URL}/reset-password`, data).then((response) => {
       setIsModalContent("Login");
+      // toast.error("Password reset failed. Please try again.");
     });
   };
 
