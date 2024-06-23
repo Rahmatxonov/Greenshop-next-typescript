@@ -199,7 +199,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
             </ul>
           </div>
           {isModalContent == "Login" && (
-            <form className="px-[100px] pt-[20px] pb-[68px]">
+            <form className="md:px-[100px] md:pt-[20px] md:pb-[68px]">
               <div className="mb-4">
                 <label
                   className="block font-normal text-[13px] leading-[16px] text-[#3D3D3D] pb-[14px]"
@@ -300,7 +300,7 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
             </form>
           )}
           {isModalContent == "Register" && (
-            <form className="px-[100px] py-[20px]">
+            <form className="md:px-[100px] md:py-[20px]">
               <div className="mb-[16px]">
                 <label
                   className="block font-normal text-[13px] leading-[16px] text-[#3D3D3D] pb-[14px]"

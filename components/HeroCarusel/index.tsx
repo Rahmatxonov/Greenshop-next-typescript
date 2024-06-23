@@ -11,7 +11,7 @@ import "./hero.css";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Button } from "../Button";
 
-interface CaruselType {
+interface SwiperType {
   id: number;
   text: string;
   title: any;
@@ -69,7 +69,7 @@ export default function App() {
           modules={[Pagination, Autoplay]}
           className="mySwiper hidden md:block"
         >
-          {heroData.map((item: CaruselType) => (
+          {heroData.map((item: SwiperType) => (
             <SwiperSlide key={item.id} className="pt-[68px] pb-[85px]">
               <div className="w-[530px] ">
                 <p className="mb-[7px] text-[14px] leading-[16px] text-[#3D3D3D] font-medium">

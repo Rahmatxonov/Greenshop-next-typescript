@@ -26,7 +26,7 @@ interface LinkType {
 const Header: React.FC = () => {
   const pathname = usePathname();
   const { basketList } = useContext(Context);
-  const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+  const [searchInput, setSearchInput] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [loginModal, setLoginModal] = useState<boolean>(false);
 
@@ -60,7 +60,7 @@ const Header: React.FC = () => {
   const handleSearchChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setTimeout(() => {
-        setShowSearchInput(false);
+        setSearchInput(false);
       }, 2000);
     }
   };
@@ -88,13 +88,13 @@ const Header: React.FC = () => {
         <div className="hidden md:flex items-center space-x-[30px] pb-[11px]">
           <button
             className="flex items-center"
-            onClick={() => setShowSearchInput(true)}
+            onClick={() => setSearchInput(true)}
           >
-            {!showSearchInput && <SearchIcon />}
+            {!searchInput && <SearchIcon />}
             <input
               onChange={handleSearchChangeInput}
               className={`${
-                showSearchInput ? "py-[14px] pl-[41px] w-[300px]" : "w-[0px]"
+                searchInput ? "py-[14px] pl-[41px] w-[300px]" : "w-[0px]"
               } search-input duration-300 outline-none focus:shadow text-[14px] font-normal leading-[16px] bg-[#F8F8F8] rounded-[10px] `}
               type="text"
               placeholder="Find your plants"
@@ -155,9 +155,31 @@ const Header: React.FC = () => {
               key={item.id}
               href={item.path}
             >
-              {item.title}
+              <p className="text-center">{item.title}</p>
             </Link>
           ))}
+          <div className="flex items-center justify-center space-x-5">
+            <Badge
+              style={{ color: "white", backgroundColor: "#46A258" }}
+              size="default"
+              count={basketList?.length}
+            >
+              <Link
+                className="text-white hover:text-[#46A258]"
+                href={"/shop/order"}
+              >
+                <OrderBasket />
+              </Link>
+            </Badge>
+            <Button
+              onClick={() => setLoginModal(true)}
+              bgBtn={false}
+              title="Login"
+              iconPosition="prev"
+              icon={<LoginIcon />}
+              buttonWidth={100}
+            />
+          </div>
         </div>
       </div>
       <LoginModal isOpen={loginModal} onClose={() => setLoginModal(false)} />

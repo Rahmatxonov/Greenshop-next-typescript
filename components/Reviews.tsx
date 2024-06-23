@@ -6,7 +6,7 @@ const Reviews = () => {
   const [activeText, setActiveText] = useState<string>("");
   return (
     <div className="container pt-[92px]">
-      <div className="flex items-center space-x-[30px] border-b border-[#46A35880]">
+      <div className="flex items-center space-x-[30px] border-b border-[#46A35880] px-5 md:px0">
         <Link
           href="#description"
           onClick={() => setActiveText("description")}
@@ -30,7 +30,7 @@ const Reviews = () => {
           Reviews (19)
         </Link>
       </div>
-      <div>
+      <div className="w-full flex flex-col flex-wrap px-3 md:px-0 text-center md:text-start">
         <p className="font-normal text-[14px] leading-[24px] text-[#727272]  pt-[18px]">
           The ceramic cylinder planters come with a wooden stand to help elevate
           your plants off the ground. The ceramic cylinder planters come with a

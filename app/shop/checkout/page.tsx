@@ -48,7 +48,6 @@ const Checkout: NextPage = () => {
     differentAddress: false,
     orderNotes: "",
   });
-  console.log(basketList);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -112,7 +111,7 @@ const Checkout: NextPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-wrap justify-between">
-        <div className="w-full max-w-[722px] px-4">
+        <div className="w-full lg:max-w-[722px] px-4 mb-8 lg:mb-0">
           <h2 className="font-bold text-[17px] leading-[16px] text-[#3D3D3D] pb-[21px]">
             Billing Address
           </h2>
@@ -206,7 +205,7 @@ const Checkout: NextPage = () => {
               <div className="w-full md:w-1/2 px-4">
                 <label className="block mb-2">Zip *</label>
                 <input
-                  type="file"
+                  type="text"
                   name="zip"
                   value={formData.zip}
                   onChange={handleChange}
@@ -262,7 +261,7 @@ const Checkout: NextPage = () => {
             </div>
           </form>
         </div>
-        <div className="w-full max-w-[405px] px-4">
+        <div className="w-full lg:max-w-[405px] px-4">
           <h2 className="font-bold text-[17px] leading-[16px] text-[#3D3D3D] pb-[21px]">
             Your Order
           </h2>
@@ -414,14 +413,13 @@ const Checkout: NextPage = () => {
               <Button
                 bgBtn={false}
                 title="Place Order"
-                buttonWidth={400}
+                buttonWidth={380}
                 onClick={openModal}
               />
             </div>
           </div>
         </div>
       </div>
-
       <OrderModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );

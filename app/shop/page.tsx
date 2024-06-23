@@ -135,29 +135,46 @@ function Interested() {
             delay: 2000,
             disableOnInteraction: false,
           }}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 40,
+            },
+          }}
           modules={[Pagination, Autoplay]}
         >
-          {SwiperDataSlider.map((data, dataIndex) => (
-            <SwiperSlide key={dataIndex} className="pt-8 pb-16">
-              <div className="flex flex-wrap justify-center items-center gap-[33px]">
-                {data.map((item: InterestedType) => (
-                  <div key={item.id} className="bg-white">
-                    <div className="bg-[#FBFBFB] px-[4px] py-[20px]">
-                      <CustomImage
-                        alt={item.text}
-                        height={200}
-                        width={190}
-                        src={item.image}
-                      />
-                    </div>
-                    <p className="mt-3 text-center font-normal text-sm md:text-base leading-4">
-                      {item.text}
-                    </p>
-                    <p className="text-center text-[#46A358] text-base md:text-lg leading-4 font-bold mt-1">
-                      {item.price}
-                    </p>
-                  </div>
-                ))}
+          {InterestedData.map((item: InterestedType) => (
+            <SwiperSlide
+              key={item.id}
+              className="flex justify-center items-center"
+            >
+              <div className="bg-white">
+                <div className="bg-[#FBFBFB] px-[4px] py-[20px] flex items-center justify-center">
+                  <CustomImage
+                    alt={item.text}
+                    height={200}
+                    width={190}
+                    src={item.image}
+                  />
+                </div>
+                <p className="mt-3 text-center font-normal text-sm md:text-base leading-4">
+                  {item.text}
+                </p>
+                <p className="text-center text-[#46A358] text-base md:text-lg leading-4 font-bold mt-1">
+                  {item.price}
+                </p>
               </div>
             </SwiperSlide>
           ))}

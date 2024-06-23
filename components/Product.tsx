@@ -2,12 +2,7 @@
 
 import React, { useContext } from "react";
 import { CustomImage } from "../components/CustomImage";
-import {
-  LikeBtn,
-  LikeMobileIcon,
-  OrderBasket,
-  SearchIcon,
-} from "@/assets/icon";
+import { LikeBtn, OrderBasket, SearchIcon } from "@/assets/icon";
 import axios from "axios";
 import { URL } from "@/service/request";
 import Link from "next/link";

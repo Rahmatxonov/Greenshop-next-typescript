@@ -26,8 +26,7 @@ interface BasketListType {
 }
 
 const Order: React.FC = () => {
-  const { basketList, setBasketList, setRefreshContext, refreshContext } =
-    useContext(Context);
+  const { basketList, setBasketList } = useContext(Context);
 
   const increaseQuantity = (productId: string) => {
     setBasketList((prev: any) =>
@@ -69,8 +68,8 @@ const Order: React.FC = () => {
 
   return (
     <>
-      <div className="container flex justify-between pt-[51px]">
-        <div className="w-full max-w-[782px]">
+      <div className="container flex flex-col lg:flex-row justify-between pt-12">
+        <div className="w-full lg:max-w-2xl">
           <table className="w-full">
             <thead>
               <tr>
@@ -91,14 +90,14 @@ const Order: React.FC = () => {
             </thead>
             <tbody>
               {basketList.map((item: BasketListType) => (
-                <tr className="relative mt-[10px]" key={item.product_id}>
+                <tr className="relative mt-2cc" key={item.product_id}>
                   <td className="py-4 flex items-center">
                     <img
                       src={item.image_url[0]}
                       alt={item.product_name}
-                      className="w-[65px] h-[65px] object-cover mr-4"
+                      className="w-16 h-16 object-cover mr-4"
                     />
-                    <div className="max-w-[205px]">
+                    <div className="max-w-xs">
                       <p className="font-semibold">{item.product_name}</p>
                       <p className="text-gray-600 text-sm">
                         SKU: {item.product_id.slice(0, 10)}
@@ -138,67 +137,58 @@ const Order: React.FC = () => {
             </tbody>
           </table>
         </div>
-        <div className="w-full max-w-[328px] relative">
-          <h2 className="absolute  w-[328px] top-3 border-b border-[#46A35880] pb-[11px] font-bold text-[18px] leading-[16px] text-[#3D3D3D]">
+        <div className="w-full lg:max-w-xs relative mt-8 lg:mt-0">
+          <h2 className="absolute w-full top-0 border-b border-[#46A35880] pb-3 font-bold text-lg text-[#3D3D3D]">
             Cart Totals
           </h2>
-          <div className="mt-[40px]">
-            <p className="font-medium text-[15px] leading-[16px] text-[#3D3D3D] pt-[11px]">
+          <div className="mt-10">
+            <p className="font-medium text-sm text-[#3D3D3D] pt-3">
               Coupon Apply
             </p>
-            <div className="flex mt-[8px] font-normal text-[14px] leading-[16px] text-[#3D3D3D]">
+            <div className="flex mt-2 font-normal text-sm text-[#3D3D3D]">
               <input
                 placeholder="Enter coupon code here..."
                 type="text"
-                className="border border-[#46A358] rounded-l-[3px] px-4 py-[12px] w-full outline-none"
+                className="border border-[#46A358] rounded-l-md px-4 py-3 w-full outline-none"
               />
-              <button className="bg-[#46A358] text-white px-6 rounded-r-[3px] font-bold text-[15px] leading-[16px]">
+              <button className="bg-[#46A358] text-white px-6 rounded-r-md font-bold text-sm">
                 Apply
               </button>
             </div>
           </div>
-          <div className="">
-            <div className="flex justify-between pt-[30px]">
-              <p className="font-normal text-[15px] leading-[16px]">Subtotal</p>
-              <p className="font-medium text-[18px] leading-[16px] text-[#3D3D3D]">
-                ${totalCost}
-              </p>
+          <div>
+            <div className="flex justify-between pt-7">
+              <p className="font-normal text-sm">Subtotal</p>
+              <p className="font-medium text-lg text-[#3D3D3D]">${totalCost}</p>
             </div>
-            <div className="flex justify-between pt-[15px]">
-              <p className="text-[15px] leading-[16px]">Coupon Discount</p>
-              <p className="text-[15px] leading-[16px]">(-) 00.00</p>
+            <div className="flex justify-between pt-4">
+              <p className="text-sm">Coupon Discount</p>
+              <p className="text-sm">(-) 00.00</p>
             </div>
-            <div className="flex justify-between pt-[21px]">
-              <p className="text-[15px] leading-[16px]">Shipping</p>
-              <p className="font-medium text-[18px] leading-[16px] text-[#3D3D3D]">
+            <div className="flex justify-between pt-5">
+              <p className="text-sm">Shipping</p>
+              <p className="font-medium text-lg text-[#3D3D3D]">
                 ${shippingCost}
               </p>
             </div>
-            <p className="text-[12px] text-[#46A358] font-normal leading-[16px] text-right pt-[8px]">
+            <p className="text-xs text-[#46A358] font-normal text-right pt-2">
               View shipping charge
             </p>
           </div>
-          <div className="pt-[50px]">
+          <div className="pt-[26px]">
             <div className="flex justify-between mb-4">
-              <p className="font-bold text-[16px] leading-[16px] text-[#3D3D3D]">
-                Total
-              </p>
-              <p className="font-bold text-[18px] leading-[16px] text-[#46A358]">
-                ${finalTotal}
-              </p>
+              <p className="font-bold text-base text-[#3D3D3D]">Total</p>
+              <p className="font-bold text-lg text-[#46A358]">${finalTotal}</p>
             </div>
-            <Link className="mt-[29px]" href={"/shop/checkout"}>
+            <Link className="mt-7" href={"/shop/checkout"}>
               <Button
                 bgBtn={false}
                 title="Proceed To Checkout"
                 buttonWidth={332}
               />
             </Link>
-            <div className="flex justify-center pt-[14px]">
-              <Link
-                className="text-[#46A358] text-[15px] leading-[16px] font-normal"
-                href={"#"}
-              >
+            <div className="flex justify-center pt-4">
+              <Link className="text-[#46A358] text-sm font-normal" href={"#"}>
                 Continue Shopping
               </Link>
             </div>
