@@ -148,6 +148,10 @@ function Home() {
       });
   }, [categoriesId, sizeId, tagNavbarId, priceRange, pages, refresh]);
 
+  if (!plantProducts) {
+    return <div className="loader"></div>;
+  }
+
   return (
     <>
       <section className="pt-[12px] pb-[46px]">

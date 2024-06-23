@@ -45,22 +45,24 @@ export const BasketListContext = ({ children }: any) => {
   }, [refreshContext]);
 
   useEffect(() => {
-    axios
-      .get(`${URL}/basket`, {
-        params: {
-          page: 1,
-          limit: 100,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setBasketList(response.data.ProductId);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (token) {
+      axios
+        .get(`${URL}/basket`, {
+          params: {
+            page: 1,
+            limit: 100,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setBasketList(response.data.ProductId);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, [token]);
 
   return (

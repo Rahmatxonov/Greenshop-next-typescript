@@ -82,21 +82,17 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
         setLoginEmail(registerEmail);
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
-  const registerVerifyBtnClick = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
+  const registerVerifyBtnClick = () => {
     const data = {
       email: registerEmail,
       code: registerOTPCode,
     };
-    console.log("Verify Data: ", data);
     try {
-      await axios
+      axios
         .post(
           `${URL}/users/verify`,
           {},
@@ -104,15 +100,15 @@ const LoginModal: FC<LoginModalProps> = ({ isOpen, onClose }) => {
             params: data,
           }
         )
-        .then((response) => {
+        .then((res) => {
           setIsModalContent("Login");
           setRegisterEmail("");
           setRegisterFirstName("");
           setRegisterLastName("");
           setRegisterPassword("");
         });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 
